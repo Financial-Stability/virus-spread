@@ -25,6 +25,7 @@ function logistic_curve() {
     var x;
     var x0;
     num = L / (1 + Math.pow(Math.E, -k * (x - x0)));
+    console.log(num);
     document.getElementById("display_num").innerHTML = num;
     setTimeout(logistic_curve, 1000);
 }
