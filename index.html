@@ -7,12 +7,21 @@
       Virus Spread
     </h1>
     <h2 id="display_num">0</h2>
-    <button id="inc_num">increment</button>
-    <button id="start_btn">start</button>
 
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <button id="inc_num_btn">increment by 1</button>
+    <button id="lin_start_btn">start linear growth</button>
+    <button id="exp_start_btn">start exponential growth</button>
+    <button id="log_start_btn">start logistical growth</button>
+
+    <div
+      class="chart-container"
+      style="position: relative; height:40vh; width:80vw"
+    >
+      <canvas id="myChart" width="200" height="200"></canvas>
+    </div>
+
     <script src="Chart.js"></script>
-    <script src="Chart.min.js"></script>
+    <script src="p5/p5.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

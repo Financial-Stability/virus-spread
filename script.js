@@ -1,73 +1,90 @@
+// setup chart
 var ctx = document.getElementById("myChart").getContext("2d");
-      var myChart = new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                "rgba(255, 99, 132, 0.2)",
-                "rgba(54, 162, 235, 0.2)",
-                "rgba(255, 206, 86, 0.2)",
-                "rgba(75, 192, 192, 0.2)",
-                "rgba(153, 102, 255, 0.2)",
-                "rgba(255, 159, 64, 0.2)"
-              ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)"
-              ],
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          scales: {
-            yAxes: [
-              {
-                ticks: {
-                  beginAtZero: true
-                }
-              }
-            ]
+var population = 0; // current x value
+var time = 0; // current y value
+let arrx = []; // x data array
+let arry = []; // y data array
+// initialize chart
+var myChart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: arrx,
+    datasets: [
+      {
+        label: "Population",
+        data: arry,
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
           }
         }
-      });
+      ]
+    }
+  }
+});
 
-function show_number() {
-  num++;
-  document.getElementById("display_num").innerHTML = num;
+function increment_number() {
+  population++;
+  time++;
+  arrx.push(time);
+  arry.push(population);
+  myChart.update();
+
+  document.getElementById("display_num").innerHTML = population;
+}
+
+function linear_growth() {
+  population++;
+  time++;
+  arrx.push(time);
+  arry.push(population);
+  myChart.update();
+
+  document.getElementById("display_num").innerHTML = population;
+  setTimeout(linear_growth, 1000);
 }
 
 function exponential_growth() {
-  num = num * num;
-  // console.log("exponential growth to " + num);
-  document.getElementById("display_num").innerHTML = num;
+  population = population * population;
+  time++;
+  arrx.push(time);
+  arry.push(population);
+  myChart.update();
+
+  document.getElementById("display_num").innerHTML = population;
   setTimeout(exponential_growth, 1000);
 }
 
+var r = 2; // growth rate
+var K = 1000000; // carrying capacity
+
 function logistic_curve() {
-  var L = 1000000;
-  var k = 0.01;
-  var x;
-  var x0;
-  num = L / (1 + Math.pow(Math.E, -k * (x - x0)));
-  console.log(num);
-  document.getElementById("display_num").innerHTML = num;
+  time++;
+  population = population + r * ((K - population) / K) * population;
+  arrx.push(time);
+  arry.push(population);
+  myChart.update();
+
+  document.getElementById("display_num").innerHTML = population;
   setTimeout(logistic_curve, 1000);
 }
 
-var num = 0;
+var incBtn = document.getElementById("inc_num_btn");
+incBtn.onclick = increment_number;
 
-var button = document.getElementById("inc_num");
-button.onclick = show_number;
+var startExpButton = document.getElementById("exp_start_btn");
+startExpButton.onclick = exponential_growth;
 
-var startButton = document.getElementById("start_btn");
-// startButton.onclick = exponential_growth;
-startButton.onclick = logistic_curve;
+var startLinButton = document.getElementById("lin_start_btn");
+startLinButton.onclick = linear_growth;
+
+var startLogButton = document.getElementById("log_start_btn");
+startLogButton.onclick = logistic_curve;
