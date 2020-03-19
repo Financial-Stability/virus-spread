@@ -1,4 +1,5 @@
 var num = 0;
+
 var button = document.getElementById("inc_num");
 button.onclick = show_number;
 
@@ -12,7 +13,7 @@ function show_number() {
 
 function exponential_growth() {
     num = num * num;
-    setTimeout(exponential_growth, 1000);
-    console.log("exponential growth to " + num);
+    // console.log("exponential growth to " + num);
     document.getElementById("display_num").innerHTML = num;
+    setTimeout(exponential_growth, 1000);
 }
