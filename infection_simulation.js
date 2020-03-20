@@ -7,8 +7,8 @@ function setupGraphs() {
   // arry.push(population);
   // myChart.update();
 
-  inf_arrx.push(time);
-  inf_arry.push(countInfected());
+  arrx.push(time);
+  arry.push(countInfected());
   infChart.update();
 }
 
@@ -54,34 +54,10 @@ function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
   time = 0;
-  var inf_arrx = []; // x data array
-  var inf_arry = []; // y data array
-  var infChart = new Chart(inf, {
-    type: "line",
-    data: {
-      labels: inf_arrx,
-      datasets: [
-        {
-          label: "Infected Population",
-          data: inf_arry,
-          borderWidth: 1
-        }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      scales: {
-        yAxes: [
-          {
-            ticks: {
-              beginAtZero: true
-            }
-          }
-        ]
-      }
-    }
-  });
+  arrx = []; // x data array
+  arry = []; // y data array
   populate();
+  infChart.reset();
   infChart.update();
 }
 
@@ -200,8 +176,8 @@ function infect() {
   console.log(num_infected);
   persons = temp_persons;
   time++;
-  inf_arrx.push(time);
-  inf_arry.push(countInfected());
+  arrx.push(time);
+  arry.push(countInfected());
 
   infChart.update();
   drawPeople();
@@ -248,17 +224,17 @@ function countInfected() {
 var inf = document.getElementById("infectedChart").getContext("2d");
 // countInfected(); // current x value
 var time = 0; // current y value
-var inf_arrx = []; // x data array
-var inf_arry = []; // y data array
+var arrx = []; // x data array
+var arry = []; // y data array
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
   data: {
-    labels: inf_arrx,
+    labels: arrx,
     datasets: [
       {
         label: "Infected Population",
-        data: inf_arry,
+        data: arry,
         borderWidth: 1
       }
     ]
