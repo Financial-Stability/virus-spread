@@ -54,11 +54,12 @@ function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
   time = 0;
-  arrx = []; // x data array
-  arry = []; // y data array
+  // arrx = []; // x data array
+  // arry = []; // y data array
+  arrx.length = 0;
+  arry.length = 0;
   populate();
   infChart.update();
-
 }
 
 function populate() {
