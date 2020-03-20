@@ -5,7 +5,7 @@ const sheeps = ["🐑", "🐑", "🐑"];
 function setupGraphs() {
   arrx.push(time);
   arry.push(countInfected());
-  arry2.push(countHealthy());
+  arry2.push(countDead());
   infChart.update();
 }
 
@@ -119,60 +119,24 @@ function recursive_infect() {
 }
 
 function infect() {
-  var temp_persons = JSON.parse(JSON.stringify(persons));
+  var temp_persons = JSON.parse(JSON.stringify(persons)); // Copy of persons
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].infected) {
-        // above
-        try {
-          if (
-            Math.random() < infection_chance &&
-            !temp_persons[x - 1][y].infected
-          ) {
-            temp_persons[x - 1][y].infected = true;
-            num_infected++;
-          }
-        } catch (error) {
-          //do nothing
-        }
-        // below
-        try {
-          if (
-            Math.random() < infection_chance &&
-            !temp_persons[x + 1][y].infected
-          ) {
-            temp_persons[x + 1][y].infected = true;
-            num_infected++;
-          }
-        } catch (error) {
-          //do nothing
-        }
-        // left
-        try {
-          if (
-            Math.random() < infection_chance &&
-            !temp_persons[x][y - 1].infected
-          ) {
-            temp_persons[x][y - 1].infected = true;
-            num_infected++;
-          }
-        } catch (error) {
-          //do nothing
-        }
-        // right
-        try {
-          if (
-            Math.random() < infection_chance &&
-            !temp_persons[x][y + 1].infected
-          ) {
-            temp_persons[x][y + 1].infected = true;
-            num_infected++;
-          }
-        } catch (error) {
-          //do nothing
-        }
-        // tryInfect(x,y)
+      if (
+        persons[x][y].infected &&
+        !persons[x][y].dead &&
+        !persons[x][y].immune
+      ) {
+        temp_persons = applyInfection(x - 1, y, temp_persons); //Left
+        temp_persons = applyInfection(x + 1, y, temp_persons); //Right
+        temp_persons = applyInfection(x, y - 1, temp_persons); //Up
+        temp_persons = applyInfection(x, y + 1, temp_persons); //Down
+
+        temp_persons = applyDeath(x - 1, y, temp_persons);
+        temp_persons = applyDeath(x + 1, y, temp_persons);
+        temp_persons = applyDeath(x, y - 1, temp_persons);
+        temp_persons = applyDeath(x, y + 1, temp_persons);
       }
     }
   }
@@ -182,25 +146,52 @@ function infect() {
   time++;
   arrx.push(time);
   arry.push(countInfected());
-  arry2.push(countHealthy());
+  arry2.push(countDead());
 
   infChart.update();
   drawPeople();
   redraw();
 }
 
-function tryInfect(x, y) {
-  if (persons[x][y].infected) {
-    // above
-    try {
-      if ((Math.random() < infection_chance) && (!temp_persons[x][y].infected)) {
-        temp_persons[x][y].infected = true;
-        num_infected++;
-      }
-    } catch (error) {
+function applyDeath(x, y, temp_persons) {
+  // Should be called after if person is infected/immune/dead check is done
+
+  time_period = 0.9;
+  death_chance = time_period + 0.05;
+  // immune_chance = 0.05; The rest of the thing is immune chance
+
+  try {
+    random_number = Math.random();
+    if (random_number > death_chance) {
+      temp_persons[x][y].immune = true;
+      temp_persons[x][y].infected = false;
+    } else if (random_number > time_period) {
+      temp_persons[x][y].dead = true;
+    } else {
       //do nothing
     }
+  } catch {
+    //do nothing
   }
+  return temp_persons;
+}
+
+function applyInfection(x, y, temp_persons) {
+  // Returns an updated 2d array after infecting one person
+  // above
+  try {
+    if (
+      Math.random() < infection_chance &&
+      !temp_persons[x][y].infected &&
+      !temp_persons[x][y].immune
+    ) {
+      temp_persons[x][y].infected = true;
+      num_infected++;
+    }
+  } catch (error) {
+    //do nothing
+  }
+  return temp_persons;
 }
 
 function drawPeople() {
@@ -209,9 +200,17 @@ function drawPeople() {
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
-        fill(color("#0f0"));
+        if (persons[x][y].dead) {
+          fill(color("#000"));
+        } else {
+          fill(color("#0f0"));
+        }
       } else {
-        fill(color("#FFF"));
+        if (persons[x][y].immune) {
+          fill(color("#ffc0cb"));
+        } else {
+          fill(color("#FFF"));
+        }
       }
       circle(
         x * (height / side_size) + height / side_size / 2,
@@ -239,7 +238,7 @@ function countInfected() {
   return infected;
 }
 
-function countHealthy() {
+function countDead() {
   healthy = 0;
   if (persons.length == 0) {
     return 0;
@@ -272,14 +271,13 @@ var infChart = new Chart(inf, {
         label: "Infected Population",
         data: arry,
         borderWidth: 1,
-        backgroundColor: "#0f0",
+        backgroundColor: "#0f0"
         // yAxisID: "first-y-axis"
-      }
-      ,
+      },
       {
         // This dataset appears on the second axis
-        label: "Total Population (not really yet)",
-        data: arry,
+        label: "Healthy Population",
+        data: arry2
         // yAxisID: "second-y-axis"
       }
     ]
