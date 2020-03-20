@@ -90,7 +90,7 @@ function stop() {
 function recursive_infect() {
   infect();
   if (doinfect) {
-    setTimeout(recursive_infect, 100);
+    setTimeout(recursive_infect, 10);
   }
 }
 
