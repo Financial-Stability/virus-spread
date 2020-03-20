@@ -1,6 +1,7 @@
 /*jshint esversion: 6 */
 
 const sheeps = ["🐑", "🐑", "🐑"];
+
 /*
 // setup chart
 var popc = document.getElementById("populationChart").getContext("2d");
