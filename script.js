@@ -221,7 +221,7 @@ function getPosition() {
 }
 
 function infect() {
-  // old_persons = [...persons];
+  old_persons = JSON.parse(JSON.stringify(persons));
   console.log(sheeps);
 
   for (var x = 0; x < persons.length; x++) {
@@ -230,7 +230,7 @@ function infect() {
         // above
         try {
           if (Math.random() > infection_chance) {
-            persons[x - 1][y].infected = true;
+            old_persons[x - 1][y].infected = true;
           }
         } catch (error) {
           //do nothing
@@ -238,7 +238,7 @@ function infect() {
         // below
         try {
           if (Math.random() > infection_chance) {
-            persons[x + 1][y].infected = true;
+            old_persons[x + 1][y].infected = true;
           }
         } catch (error) {
           //do nothing
@@ -246,7 +246,7 @@ function infect() {
         // left
         try {
           if (Math.random() > infection_chance) {
-            persons[x][y - 1].infected = true;
+            old_persons[x][y - 1].infected = true;
           }
         } catch (error) {
           //do nothing
@@ -254,7 +254,7 @@ function infect() {
         // right
         try {
           if (Math.random() > infection_chance) {
-            persons[x][y + 1].infected = true;
+            old_persons[x][y + 1].infected = true;
           }
         } catch (error) {
           // do nothing
@@ -262,6 +262,7 @@ function infect() {
       }
     }
   }
+  persons = old_persons;
   drawPeople();
   redraw();
 }
