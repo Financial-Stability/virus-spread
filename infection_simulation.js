@@ -53,7 +53,6 @@ function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
   time = 0;
-  // clear arrays
   arrx.length = 0;
   arry.length = 0;
   populate();
@@ -185,8 +184,21 @@ function infect() {
   redraw();
 }
 
-function tryInfect(x,y) {
-  
+function tryInfect(x, y) {
+  if (persons[x][y].infected) {
+    // above
+    try {
+      if (
+        Math.random() < infection_chance &&
+        !temp_persons[x - 1][y].infected
+      ) {
+        temp_persons[x - 1][y].infected = true;
+        num_infected++;
+      }
+    } catch (error) {
+      //do nothing
+    }
+  }
 }
 
 function drawPeople() {
@@ -212,7 +224,9 @@ function drawPeople() {
 
 function countInfected() {
   infected = 0;
-  if (persons.length == 0) {return 0;}
+  if (persons.length == 0) {
+    return 0;
+  }
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
@@ -241,7 +255,7 @@ var infChart = new Chart(inf, {
         data: arry,
         borderWidth: 1,
         backgroundColor: "#0f0",
-        yAxisID: "first-y-axis"
+        // yAxisID: "first-y-axis"
       }
       // ,
       // {
