@@ -274,7 +274,7 @@ var infChart = new Chart(inf, {
         {
           ticks: {
             beginAtZero: true
-          }
+          },
           stacked: true
         }
       ]
