@@ -247,6 +247,7 @@ var infChart = new Chart(inf, {
       },
       {
         // This dataset appears on the second axis
+        data: arrx,
         yAxisID: "second-y-axis"
       }
     ]
