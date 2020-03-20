@@ -219,13 +219,13 @@ function getPosition() {
 }
 
 function infect() {
-  console.log("infect");
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       // above
       try {
         if (Math.random() > infection_chance) {
           persons[x - 1][y].infected = true;
+          console.log("infect");
         }
       } catch (error) {
         //do nothing
@@ -234,6 +234,7 @@ function infect() {
       try {
         if (Math.random() > infection_chance) {
           persons[x + 1][y].infected = true;
+          console.log("infect");
         }
       } catch (error) {
         //do nothing
@@ -242,6 +243,7 @@ function infect() {
       try {
         if (Math.random() > infection_chance) {
           persons[x][y - 1].infected = true;
+          console.log("infect");
         }
       } catch (error) {
         //do nothing
@@ -250,12 +252,14 @@ function infect() {
       try {
         if (Math.random() > infection_chance) {
           persons[x][y + 1].infected = true;
+          console.log("infect");
         }
       } catch (error) {
         // do nothing
       }
     }
   }
+  redraw();
 }
 
 var infectButton = document.getElementById("inf_btn");
