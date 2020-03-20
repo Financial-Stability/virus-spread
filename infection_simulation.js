@@ -172,6 +172,7 @@ function infect() {
         } catch (error) {
           //do nothing
         }
+        // tryInfect(x,y)
       }
     }
   }
