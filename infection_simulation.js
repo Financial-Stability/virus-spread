@@ -66,7 +66,9 @@ function populate() {
 
   class Person {
     constructor(infected) {
-      this.infected = infected;
+      this.infected = infected; // If healthy, false
+      this.immune = false;
+      
     }
   }
 
@@ -247,7 +249,8 @@ var infChart = new Chart(inf, {
         {
           ticks: {
             beginAtZero: true
-          }
+          },
+          stacked: true
         }
       ]
     }
