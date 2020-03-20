@@ -235,8 +235,8 @@ var arry = []; // y data array
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
+  scaleLabel: "T",
   data: {
-    label: "Time",
     labels: arrx,
     datasets: [
       {
