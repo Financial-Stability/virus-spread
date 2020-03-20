@@ -68,7 +68,7 @@ function populate() {
     constructor(infected) {
       this.infected = infected; // If healthy, false
       this.immune = false;
-      
+      this.dead = false;
     }
   }
 
@@ -186,6 +186,10 @@ function infect() {
   redraw();
 }
 
+function tryInfect(){
+  
+}
+
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = infect;
 
@@ -236,7 +240,8 @@ var infChart = new Chart(inf, {
     datasets: [
       {
         label: "Infected Population",
-        data: arry,
+        // data: arry,
+        data: [arry, arrx]
         borderWidth: 1,
         backgroundColor: "#0f0"
       }
