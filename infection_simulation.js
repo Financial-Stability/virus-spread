@@ -2,6 +2,66 @@
 
 const sheeps = ["🐑", "🐑", "🐑"];
 
+// setup chart
+var inf = document.getElementById("infectedChart").getContext("2d");
+// countInfected(); // current x value
+var time = 0; // current y value
+var arrx = []; // x data array
+var arry = []; // y data array
+var arry2 = []; // y data array
+var arry3 = []; // y data array
+var arry4 = []; // y data array
+// initialize chart
+var infChart = new Chart(inf, {
+  type: "line",
+  data: {
+    labels: arrx,
+    datasets: [
+      {
+        // This dataset appears on the first axis
+        label: "Infected Population",
+        data: arry,
+        borderWidth: 1,
+        backgroundColor: 'rgba(0, 255, 0, 0.1)'
+        // yAxisID: "first-y-axis"
+      },
+      {
+        // This dataset appears on the second axis
+        label: "Dead Population",
+        data: arry2,
+        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+        // yAxisID: "second-y-axis"
+      },
+      {
+        // This dataset appears on the second axis
+        label: "Immune Population",
+        data: arry3,
+        backgroundColor: 'rgba(255, 105, 180, 0.1)'
+        // yAxisID: "second-y-axis"
+      },
+      {
+        // This dataset appears on the second axis
+        label: "Healthy Population",
+        data: arry4
+        // yAxisID: "second-y-axis"
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          },
+          stacked: true
+        }
+      ]
+    }
+  }
+});
+
 function setupGraphs() {
   arrx.push(time);
   arry.push(countInfected());
@@ -161,7 +221,8 @@ function applyDeath(x, y, temp_persons) {
   // immune_chance = 0.05; The rest of the thing is immune chance
 
   try {
-    random_number = Math.random();
+    random_number = Math.random(0,1);
+    if (!temp_persons[x][y].dead){
     if (random_number > death_chance) {
       temp_persons[x][y].immune = true;
       temp_persons[x][y].infected = false;
@@ -170,6 +231,7 @@ function applyDeath(x, y, temp_persons) {
     } else {
       //do nothing
     }
+  }
   } catch {
     //do nothing
   }
@@ -201,15 +263,15 @@ function drawPeople() {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
         if (persons[x][y].dead) {
-          fill(color("#000"));
+          fill(color('rgb(0, 0, 0)'));
         } else {
-          fill(color("#0f0"));
+          fill(color('rgb(0, 255, 0)'));
         }
       } else {
         if (persons[x][y].immune) {
-          fill(color("#ff69b4"));
+          fill(color('rgb(255, 105, 180)'));
         } else {
-          fill(color("#FFF"));
+          fill(color('rgb(255, 255, 255)'));
         }
       }
       circle(
@@ -253,46 +315,4 @@ function countDead() {
   return healthy;
 }
 
-// setup chart
-var inf = document.getElementById("infectedChart").getContext("2d");
-// countInfected(); // current x value
-var time = 0; // current y value
-var arrx = []; // x data array
-var arry = []; // y data array
-var arry2 = []; // y data array
-// initialize chart
-var infChart = new Chart(inf, {
-  type: "line",
-  data: {
-    labels: arrx,
-    datasets: [
-      {
-        // This dataset appears on the first axis
-        label: "Infected Population",
-        data: arry,
-        borderWidth: 1,
-        backgroundColor: "#0f0"
-        // yAxisID: "first-y-axis"
-      },
-      {
-        // This dataset appears on the second axis
-        label: "Healthy Population",
-        data: arry2
-        // yAxisID: "second-y-axis"
-      }
-    ]
-  },
-  options: {
-    maintainAspectRatio: false,
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true
-          },
-          stacked: true
-        }
-      ]
-    }
-  }
-});
+
