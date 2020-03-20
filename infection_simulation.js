@@ -14,7 +14,7 @@ function setupGraphs() {
 
 function setup() {
   // put setup code here
-  createCanvas(400, 400);
+  createCanvas(800, 800);
   noStroke();
   background(220);
   populate();
