@@ -168,12 +168,12 @@ function draw() {
 
 // Start Population Code
 var population_size = 100;
-var infection_chance = 0.5;
+var infection_chance = 0.2;
 var persons = [];
+var side_size = Math.sqrt(population_size);
 
 function populate() {
   // will be square
-  var side_size = Math.sqrt(population_size);
 
   class Person {
     constructor(infected) {
@@ -209,7 +209,7 @@ function populate() {
   //   }
   // }
 
-  drawPeople(individual_size);
+  drawPeople();
 }
 
 function getPosition() {
@@ -259,14 +259,16 @@ function infect() {
       }
     }
   }
+  drawPeople();
   redraw();
 }
 
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = infect;
 
-function drawPeople(individual_size) {
+function drawPeople() {
   var side_size = Math.sqrt(population_size);
+  var individual_size = height / side_size / 1.5;
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
