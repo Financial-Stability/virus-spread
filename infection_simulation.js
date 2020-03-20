@@ -235,18 +235,21 @@ var arry = []; // y data array
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
-  scaleLabel: "T",
   data: {
     labels: arrx,
-    datasets: [
-      {
-        label: "Infected Population",
+    datasets:
+    [{
+      // This dataset appears on the first axis
+      label: "Infected Population",
         data: arry,
         // data: [arry, arrx]
         borderWidth: 1,
         backgroundColor: "#0f0"
-      }
-    ]
+      yAxisID: 'first-y-axis'
+  }, {
+      // This dataset appears on the second axis
+      yAxisID: 'second-y-axis'
+  }]
   },
   options: {
     maintainAspectRatio: false,
