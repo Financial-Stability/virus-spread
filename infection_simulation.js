@@ -7,10 +7,13 @@ var inf = document.getElementById("infectedChart").getContext("2d");
 // countInfected(); // current x value
 var time = 0; // current y value
 var arrx = []; // x data array
-var arry = []; // y data array
-var arry2 = []; // y data array
-var arry3 = []; // y data array
-var arry4 = []; // y data array
+var arrys = [][];
+
+// var arry = []; // y data array
+// var arry2 = []; // y data array
+// var arry3 = []; // y data array
+// var arry4 = []; // y data array
+
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
@@ -20,30 +23,27 @@ var infChart = new Chart(inf, {
       {
         // This dataset appears on the first axis
         label: "Infected Population",
-        data: arry,
+        data: arry[0],
         borderWidth: 1,
         backgroundColor: 'rgba(0, 255, 0, 0.1)'
-        // yAxisID: "first-y-axis"
       },
       {
         // This dataset appears on the second axis
         label: "Dead Population",
-        data: arry2,
+        data: arry[1],
         backgroundColor: 'rgba(0, 0, 0, 0.1)'
-        // yAxisID: "second-y-axis"
       },
       {
         // This dataset appears on the second axis
         label: "Immune Population",
-        data: arry3,
+        data: arry[2],
         backgroundColor: 'rgba(255, 105, 180, 0.1)'
-        // yAxisID: "second-y-axis"
       },
       {
         // This dataset appears on the second axis
         label: "Healthy Population",
-        data: arry4
-        // yAxisID: "second-y-axis"
+        data: arry[3]
+        backgroundColor: 'rgba(0, 0, 0, 0.1)'
       }
     ]
   },
@@ -285,6 +285,42 @@ function drawPeople() {
 
 // graph functions
 
+
+
+function getTotals() {
+  infected = 0;
+  dead = 0;
+  immune = 0;
+  healthy = 0; // not immune
+
+  if (persons.length == 0) {
+    return 0;
+  }
+
+  bHealth = true;
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      if (persons[x][y].infected) {
+        infected++;
+        bHealth = false;
+      }
+      if (persons[x][y].dead) {
+        dead++;
+        bHealth = false;
+      }
+      if (persons[x][y].immune) {
+        immune++;
+        bHealth = false;
+      }
+      if (bHealth){
+        healthy++
+      }
+    }
+  }
+  return infected, dead, immune, healthy;
+}
+
+
 function countInfected() {
   infected = 0;
   if (persons.length == 0) {
@@ -300,7 +336,7 @@ function countInfected() {
   return infected;
 }
 
-function countDead() {
+function countHealthy() {
   healthy = 0;
   if (persons.length == 0) {
     return 0;
@@ -313,6 +349,21 @@ function countDead() {
     }
   }
   return healthy;
+}
+
+function countDead() { // TODO fix this
+  dead = 0;
+  if (persons.length == 0) {
+    return 0;
+  }
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      if (!persons[x][y].infected) {
+        dead++;
+      }
+    }
+  }
+  return dead;
 }
 
 
