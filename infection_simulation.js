@@ -6,7 +6,6 @@ function setupGraphs() {
   // arrx.push(time);
   // arry.push(population);
   // myChart.update();
-
   arrx.push(time);
   arry.push(countInfected());
   infChart.update();
@@ -214,6 +213,7 @@ function drawPeople() {
 
 function countInfected() {
   infected = 0;
+  if (persons.length == 0) {return 0;}
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
