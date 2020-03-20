@@ -184,6 +184,7 @@ var population_size = 10000;
 var infection_chance = 0.2;
 var persons = [];
 var side_size = Math.sqrt(population_size);
+var start_infected_chance = 0.05;
 
 function populate() {
   // will be square
@@ -197,7 +198,7 @@ function populate() {
   var individual_size = height / side_size / 1.5;
 
   // populate persons array
-  var start_infected_chance = 0.001;
+  
 
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
