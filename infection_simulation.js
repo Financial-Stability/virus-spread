@@ -58,6 +58,7 @@ function applySettings() {
   // arry = []; // y data array
   populate();
   infChart.update();
+  infChart.reset();
 }
 
 function populate() {
