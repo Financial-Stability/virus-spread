@@ -1,5 +1,7 @@
 /*jshint esversion: 6 */
 
+const sheeps = ["🐑", "🐑", "🐑"];
+
 // setup chart
 var ctx = document.getElementById("myChart").getContext("2d");
 var population = 0; // current x value
@@ -219,43 +221,44 @@ function getPosition() {
 }
 
 function infect() {
+  // old_persons = [...persons];
+  console.log(sheeps);
+
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      // above
-      try {
-        if (Math.random() > infection_chance) {
-          persons[x - 1][y].infected = true;
-          console.log("infect");
+      if (persons[x][y].infected) {
+        // above
+        try {
+          if (Math.random() > infection_chance) {
+            persons[x - 1][y].infected = true;
+          }
+        } catch (error) {
+          //do nothing
         }
-      } catch (error) {
-        //do nothing
-      }
-      // below
-      try {
-        if (Math.random() > infection_chance) {
-          persons[x + 1][y].infected = true;
-          console.log("infect");
+        // below
+        try {
+          if (Math.random() > infection_chance) {
+            persons[x + 1][y].infected = true;
+          }
+        } catch (error) {
+          //do nothing
         }
-      } catch (error) {
-        //do nothing
-      }
-      // left
-      try {
-        if (Math.random() > infection_chance) {
-          persons[x][y - 1].infected = true;
-          console.log("infect");
+        // left
+        try {
+          if (Math.random() > infection_chance) {
+            persons[x][y - 1].infected = true;
+          }
+        } catch (error) {
+          //do nothing
         }
-      } catch (error) {
-        //do nothing
-      }
-      // right
-      try {
-        if (Math.random() > infection_chance) {
-          persons[x][y + 1].infected = true;
-          console.log("infect");
+        // right
+        try {
+          if (Math.random() > infection_chance) {
+            persons[x][y + 1].infected = true;
+          }
+        } catch (error) {
+          // do nothing
         }
-      } catch (error) {
-        // do nothing
       }
     }
   }
