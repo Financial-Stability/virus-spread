@@ -235,7 +235,8 @@ var infChart = new Chart(inf, {
       {
         label: "Infected Population",
         data: arry,
-        borderWidth: 1
+        borderWidth: 1,
+        backgroundColor: rgba(1, 0, 0, 0)
       }
     ]
   },
