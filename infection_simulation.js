@@ -257,13 +257,13 @@ var infChart = new Chart(inf, {
         backgroundColor: "#0f0",
         // yAxisID: "first-y-axis"
       }
-      // ,
-      // {
-      //   // This dataset appears on the second axis
-      //   label: "Total Population (not really yet)",
-      //   data: arrx,
-      //   yAxisID: "second-y-axis"
-      // }
+      ,
+      {
+        // This dataset appears on the second axis
+        label: "Total Population (not really yet)",
+        data: arrx,
+        // yAxisID: "second-y-axis"
+      }
     ]
   },
   options: {
