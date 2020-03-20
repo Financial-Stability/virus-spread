@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>population-growth</title>
+  </head>
+  <body>
+    <h1>
+      Population Growth
+    </h1>
+
+    <h2 id="display_num">0</h2>
+
+    <button id="inc_num_btn">increment by 1</button>
+    <button id="lin_start_btn">start linear growth</button>
+    <button id="exp_start_btn">start exponential growth</button>
+    <button id="log_start_btn">start logistical growth</button>
+    <button id="stop_btn">stop growth</button>
+
+    <div
+      class="chart-container"
+      style="position: relative; height:60vh; width:80vw"
+    >
+      <canvas id="populationChart" width="200" height="200"></canvas>
+    </div>
+
+    <script src="Chart.js"></script>
+    <script src="p5/p5.js"></script>
+    <script src="population_simulation.js"></script>
+  </body>
+</html>
