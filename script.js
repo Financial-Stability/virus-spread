@@ -189,7 +189,7 @@ function populate() {
     // this is wrong
     for (var y = 0; y < axis_size; y++) {
       persons.push(
-        new Person(x * (height / individal_size), y * (height / individal_size))
+        new Person(x * (height / axis_size), y * (height / axis_size))
       );
       console.log("(" + x + ", " + y + ")");
     }
