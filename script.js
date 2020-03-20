@@ -167,9 +167,9 @@ function draw() {
 }
 
 // Start Population Code
-var persons = [];
 var population_size = 100;
 var infection_chance = 0.5;
+var persons = [];
 
 function populate() {
   // will be square
@@ -187,7 +187,7 @@ function populate() {
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
-      if (Math.random() < 0.1) {
+      if (Math.random() < 0.05) {
         temp_row.push(new Person(true));
       } else {
         temp_row.push(new Person(false));
@@ -212,13 +212,14 @@ function populate() {
   drawPeople(individual_size);
 }
 
-function getPosition(personNo) {
+function getPosition() {
   collumnNum = population_size % side_size;
   rowNum = Math.floor(population_size / side_size);
   return collumnNum, rowNum;
 }
 
-function infect(persons) {
+function infect() {
+  console.log("infect");
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       // above
