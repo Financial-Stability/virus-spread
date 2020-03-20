@@ -164,33 +164,36 @@ function draw() {
 }
 
 function populate() {
-  // completely fill
-  // for (var i = 1; i < width / 20; i++) {
-  //   for (var j = 1; j < height / 20; j++) {
-  //     circle(i * 20, j * 20, 10);
-  //   }
-  // }
-  var arr = [];
-  for (var i = 0; i < 100; i++) {
-    arr.push(i);
+  population_size = 100;
+
+  axis_size = Math.sqrt(population_size);
+
+  // xCoords = [];
+  // yCoords = [];
+  // infected = [];
+
+  class Person {
+    constructor(x, y, infected) {
+      this.x = x;
+      this.y = y;
+    }
   }
-  // fill to certain amount w/ golden ratio
-  // the golden ratio: 2.11803398875
-  var n = arr.length;
-  var PHI = 1 + Math.sqrt(5) / 2;
-  for (var i = 0; i < n; i++) {
-    var theta = Math.PI * PHI * arr[i];
-    // var r = Math.sqrt((arr[i] + 0.5) / n);
-    var r = (arr[i] + 0.5) / n
-    console.log("r: " + r);
-    circle(
-      (r * Math.cos(theta) + 1) * (width / 2),
-      (r * Math.sin(theta) + 1) * (height / 2),
-      10
-    );
-    // console.log(i / n + ", " + i / 2.11803398875);
-    // console.log(r * Math.sin(theta) + ", " + r * Math.cos(theta / n));
-    console.log(r * Math.cos(theta) + 1 + ", " + (r * Math.sin(theta / n) + 1));
+
+  persons = [];
+
+  // assume height = width
+  // space_between = 5; //px
+  var individal_size = height / axis_size;
+
+  for (var x = 0; x < axis_size; x++) {
+    // this is wrong
+    for (var y = 0; y < axis_size; y++) {
+      persons.push(new Person(x, y));
+      console.log("(" + x + ", " + y + ")");
+    }
   }
-  redraw();
+
+  for (var i = 0; i < persons.length; i++) {
+    circle(persons[i].x, persons[i].y, individal_size);
+  }
 }
