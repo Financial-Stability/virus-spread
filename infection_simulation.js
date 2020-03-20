@@ -161,7 +161,17 @@ function infect() {
           //do nothing
         }
         // right
-        tryInfect(x,y+1)
+        try {
+          if (
+            Math.random() < infection_chance &&
+            !temp_persons[x][y + 1].infected
+          ) {
+            temp_persons[x][y + 1].infected = true;
+            num_infected++;
+          }
+        } catch (error) {
+          //do nothing
+        }
       }
     }
   }
