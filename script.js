@@ -184,14 +184,14 @@ function populate() {
   // assume height = width
   // space_between = 5; //px
   // var individal_size = height / axis_size;
-  var individal_size = 10;
+  var individual_size = 10;
 
   for (var x = 0; x < axis_size; x++) {
     // this is wrong
     for (var y = 0; y < axis_size; y++) {
       persons.push(
         new Person(
-          x * (height / axis_size) + individal_size,
+          x * (height / axis_size) + individual_size,
           y * (height / axis_size) + individual_size
         )
       );
@@ -200,6 +200,6 @@ function populate() {
   }
 
   for (var i = 0; i < persons.length; i++) {
-    circle(persons[i].x, persons[i].y, individal_size);
+    circle(persons[i].x, persons[i].y, individual_size);
   }
 }
