@@ -163,6 +163,10 @@ function draw() {
   // loops forever unless noLoop is called
 }
 
+// Start Population Code
+var persons = [];
+
+
 function populate() {
   population_size = 100;
 
@@ -179,20 +183,18 @@ function populate() {
     }
   }
 
-  persons = [];
-
   // assume height = width
   // space_between = 5; //px
-  // var individal_size = height / axis_size;
-  var individual_size = 10;
+  var individual_size = height / axis_size / 1.5;
+  // var individual_size = 10;
 
   for (var x = 0; x < axis_size; x++) {
     // this is wrong
     for (var y = 0; y < axis_size; y++) {
       persons.push(
         new Person(
-          x * (height / axis_size),
-          y * (height / axis_size)
+          x * (height / axis_size) + height / axis_size / 2,
+          y * (height / axis_size) + height / axis_size / 2
         )
       );
       console.log("(" + x + ", " + y + ")");
