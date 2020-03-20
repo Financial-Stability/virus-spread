@@ -180,7 +180,7 @@ function draw() {
 }
 
 // Start Population Code
-var population_size = 100;
+var population_size = 10000;
 var infection_chance = 0.2;
 var persons = [];
 var side_size = Math.sqrt(population_size);
