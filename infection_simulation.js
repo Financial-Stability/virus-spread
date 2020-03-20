@@ -5,6 +5,7 @@ const sheeps = ["🐑", "🐑", "🐑"];
 function setupGraphs() {
   arrx.push(time);
   arry.push(countInfected());
+  arry2.push(countHealthy());
   infChart.update();
 }
 
@@ -57,6 +58,7 @@ function applySettings() {
   time = 0;
   arrx.length = 0;
   arry.length = 0;
+  arry2.length = 0;
   populate();
   infChart.update();
 }
@@ -159,17 +161,7 @@ function infect() {
           //do nothing
         }
         // right
-        try {
-          if (
-            Math.random() < infection_chance &&
-            !temp_persons[x][y + 1].infected
-          ) {
-            temp_persons[x][y + 1].infected = true;
-            num_infected++;
-          }
-        } catch (error) {
-          // do nothing
-        }
+        tryInfect(x,y+1)
       }
     }
   }
@@ -179,6 +171,7 @@ function infect() {
   time++;
   arrx.push(time);
   arry.push(countInfected());
+  arry2.push(countHealthy());
 
   infChart.update();
   drawPeople();
@@ -189,8 +182,8 @@ function tryInfect(x, y) {
   if (persons[x][y].infected) {
     // above
     try {
-      if ((Math.random() < infection_chance) && (!temp_persons[x - 1][y].infected)) {
-        temp_persons[x - 1][y].infected = true;
+      if ((Math.random() < infection_chance) && (!temp_persons[x][y].infected)) {
+        temp_persons[x][y].infected = true;
         num_infected++;
       }
     } catch (error) {
@@ -235,12 +228,28 @@ function countInfected() {
   return infected;
 }
 
+function countHealthy() {
+  healthy = 0;
+  if (persons.length == 0) {
+    return 0;
+  }
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      if (!persons[x][y].infected) {
+        healthy++;
+      }
+    }
+  }
+  return healthy;
+}
+
 // setup chart
 var inf = document.getElementById("infectedChart").getContext("2d");
 // countInfected(); // current x value
 var time = 0; // current y value
 var arrx = []; // x data array
 var arry = []; // y data array
+var arry2 = []; // y data array
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
