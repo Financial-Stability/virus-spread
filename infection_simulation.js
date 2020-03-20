@@ -3,9 +3,6 @@
 const sheeps = ["🐑", "🐑", "🐑"];
 
 function setupGraphs() {
-  // arrx.push(time);
-  // arry.push(population);
-  // myChart.update();
   arrx.push(time);
   arry.push(countInfected());
   infChart.update();
@@ -188,7 +185,9 @@ function infect() {
   redraw();
 }
 
-function tryInfect() {}
+function tryInfect(x,y) {
+  
+}
 
 function drawPeople() {
   var side_size = Math.sqrt(population_size);
@@ -240,17 +239,17 @@ var infChart = new Chart(inf, {
         // This dataset appears on the first axis
         label: "Infected Population",
         data: arry,
-        // data: [arry, arrx]
         borderWidth: 1,
         backgroundColor: "#0f0",
         yAxisID: "first-y-axis"
       }
-      ,
-      {
-        // This dataset appears on the second axis
-        data: arrx,
-        yAxisID: "second-y-axis"
-      }
+      // ,
+      // {
+      //   // This dataset appears on the second axis
+      //   label: "Total Population (not really yet)",
+      //   data: arrx,
+      //   yAxisID: "second-y-axis"
+      // }
     ]
   },
   options: {
