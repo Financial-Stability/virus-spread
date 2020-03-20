@@ -54,8 +54,10 @@ function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
   var inf_arrx = []; // x data array
-var inf_arry = []; // y data array
+  var inf_arry = []; // y data array
   populate();
+  infChart.update();
+  time = 0;
 }
 
 function populate() {
@@ -81,8 +83,9 @@ function populate() {
         temp_row.push(new Person(false));
       }
     }
-    persons.push(temp_row);
+    temp_persons.push(temp_row);
   }
+  persons = JSON.parse(JSON.stringify(temp_persons));
   drawPeople();
 }
 
