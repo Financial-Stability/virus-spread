@@ -270,8 +270,8 @@ function infect() {
   console.log("Numer infected:", number_infected);
   persons = old_persons;
   time++;
-  arrx.push(time);
-  arry.push(countInfected());
+  inf_arrx.push(time);
+  inf_arry.push(countInfected());
   infChart.update();
   drawPeople();
   redraw();
@@ -317,17 +317,17 @@ function countInfected() {
 var inf = document.getElementById("infectedChart").getContext("2d");
 // countInfected(); // current x value
 var time = 0; // current y value
-var arrx = []; // x data array
-var arry = []; // y data array
+var inf_arrx = []; // x data array
+var inf_arry = []; // y data array
 // initialize chart
 var infChart = new Chart(inf, {
   type: "line",
   data: {
-    labels: arrx,
+    labels: inf_arrx,
     datasets: [
       {
         label: "Infected Population",
-        data: arry,
+        data: inf_arry,
         borderWidth: 1
       }
     ]
