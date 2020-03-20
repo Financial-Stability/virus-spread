@@ -50,11 +50,16 @@ stopButton.onclick = stop;
 var settingsButton = document.getElementById("set_btn");
 settingsButton.onclick = populate;
 
-function populate() {
-  // will be square
-
+function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
+  var inf_arrx = []; // x data array
+var inf_arry = []; // y data array
+  populate();
+}
+
+function populate() {
+  // will be square
 
   class Person {
     constructor(infected) {
@@ -65,6 +70,7 @@ function populate() {
   var individual_size = height / side_size / 1.5;
 
   // populate persons array
+  var temp_persons = []
 
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
