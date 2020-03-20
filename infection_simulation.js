@@ -244,12 +244,13 @@ var infChart = new Chart(inf, {
         borderWidth: 1,
         backgroundColor: "#0f0",
         yAxisID: "first-y-axis"
-      },
-      {
-        // This dataset appears on the second axis
-        data: arrx,
-        yAxisID: "second-y-axis"
       }
+      // ,
+      // {
+      //   // This dataset appears on the second axis
+      //   data: arrx,
+      //   yAxisID: "second-y-axis"
+      // }
     ]
   },
   options: {
