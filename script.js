@@ -3,13 +3,13 @@
 const sheeps = ["🐑", "🐑", "🐑"];
 
 // setup chart
-var ctx = document.getElementById("myChart").getContext("2d");
+var popc = document.getElementById("populationChart").getContext("2d");
 var population = 0; // current x value
 var time = 0; // current y value
 var arrx = []; // x data array
 var arry = []; // y data array
 // initialize chart
-var myChart = new Chart(ctx, {
+var myChart = new Chart(popc, {
   type: "line",
   data: {
     labels: arrx,
@@ -223,6 +223,7 @@ function getPosition() {
 function infect() {
   old_persons = JSON.parse(JSON.stringify(persons));
   console.log(sheeps);
+  var number_infected = 0;
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
@@ -231,6 +232,7 @@ function infect() {
         try {
           if (Math.random() > infection_chance) {
             old_persons[x - 1][y].infected = true;
+            number_infected++;
           }
         } catch (error) {
           //do nothing
@@ -239,6 +241,7 @@ function infect() {
         try {
           if (Math.random() > infection_chance) {
             old_persons[x + 1][y].infected = true;
+            number_infected++;
           }
         } catch (error) {
           //do nothing
@@ -247,6 +250,7 @@ function infect() {
         try {
           if (Math.random() > infection_chance) {
             old_persons[x][y - 1].infected = true;
+            number_infected++;
           }
         } catch (error) {
           //do nothing
@@ -255,6 +259,7 @@ function infect() {
         try {
           if (Math.random() > infection_chance) {
             old_persons[x][y + 1].infected = true;
+            number_infected++;
           }
         } catch (error) {
           // do nothing
@@ -262,7 +267,11 @@ function infect() {
       }
     }
   }
+  console.log("Numer infected:", number_infected);
   persons = old_persons;
+  time++;
+  arrx.push(time);
+  arry.push(countInfected());
   drawPeople();
   redraw();
 }
@@ -288,3 +297,50 @@ function drawPeople() {
     }
   }
 }
+
+// graph functions
+
+function countInfected() {
+  infected = 0;
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      if (persons[x][y].infected) {
+        infected++;
+      }
+    }
+  }
+  return infected;
+}
+
+// setup chart
+var inf = document.getElementById("infectedChart").getContext("2d");
+// countInfected(); // current x value
+var time = 0; // current y value
+var arrx = []; // x data array
+var arry = []; // y data array
+// initialize chart
+var myChart = new Chart(inf, {
+  type: "line",
+  data: {
+    labels: arrx,
+    datasets: [
+      {
+        label: "Population",
+        data: arry,
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: true
+          }
+        }
+      ]
+    }
+  }
+});
