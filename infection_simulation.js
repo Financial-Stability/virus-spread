@@ -50,6 +50,9 @@ stopButton.onclick = stop;
 var settingsButton = document.getElementById("set_btn");
 settingsButton.onclick = applySettings;
 
+var infectButton = document.getElementById("inf_btn");
+infectButton.onclick = infect;
+
 function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
@@ -190,9 +193,6 @@ function tryInfect(){
   
 }
 
-var infectButton = document.getElementById("inf_btn");
-infectButton.onclick = infect;
-
 function drawPeople() {
   var side_size = Math.sqrt(population_size);
   var individual_size = height / side_size / 1.5;
@@ -236,12 +236,13 @@ var arry = []; // y data array
 var infChart = new Chart(inf, {
   type: "line",
   data: {
+    label: "Time",
     labels: arrx,
     datasets: [
       {
         label: "Infected Population",
-        // data: arry,
-        data: [arry, arrx]
+        data: arry,
+        // data: [arry, arrx]
         borderWidth: 1,
         backgroundColor: "#0f0"
       }
@@ -255,7 +256,7 @@ var infChart = new Chart(inf, {
           ticks: {
             beginAtZero: true
           },
-          stacked: true
+          // stacked: true
         }
       ]
     }
