@@ -189,10 +189,7 @@ function tryInfect(x, y) {
   if (persons[x][y].infected) {
     // above
     try {
-      if (
-        Math.random() < infection_chance &&
-        !temp_persons[x - 1][y].infected
-      ) {
+      if ((Math.random() < infection_chance) && (!temp_persons[x - 1][y].infected)) {
         temp_persons[x - 1][y].infected = true;
         num_infected++;
       }
@@ -262,7 +259,7 @@ var infChart = new Chart(inf, {
       {
         // This dataset appears on the second axis
         label: "Total Population (not really yet)",
-        data: arrx,
+        data: arry,
         // yAxisID: "second-y-axis"
       }
     ]
