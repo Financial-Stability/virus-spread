@@ -197,10 +197,12 @@ function populate() {
   var individual_size = height / side_size / 1.5;
 
   // populate persons array
+  var start_infected_chance = 0.001;
+
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
-      if (Math.random() < 0.05) {
+      if (Math.random() < start_infected_chance) {
         temp_row.push(new Person(true));
       } else {
         temp_row.push(new Person(false));
@@ -208,20 +210,6 @@ function populate() {
     }
     persons.push(temp_row);
   }
-
-  // Used to draw people to screen
-  // for (var x = 0; x < side_size; x++) {
-  //   for (var y = 0; y < side_size; y++) {
-  //     persons.push(
-  //       new Person(
-  //         x * (height / side_size) + height / side_size / 2,
-  //         y * (height / side_size) + height / side_size / 2
-  //       )
-  //     );
-  //     // console.log("(" + x + ", " + y + ")");
-  //   }
-  // }
-
   drawPeople();
 }
 
