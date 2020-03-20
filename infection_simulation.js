@@ -14,7 +14,8 @@ function setupGraphs() {
 
 function setup() {
   // put setup code here
-  createCanvas(800, 800);
+  let canvas = createCanvas(600, 600);
+  canvas.parent('canvascontainer');
   noStroke();
   background(220);
   populate();
@@ -29,11 +30,12 @@ function draw() {
 
 // Start Population Code
 var population_size = 10000;
-var infection_chance = document.getElementById("inf_input").value;
+// var infection_chance = document.getElementById("inf_input").value;
+var infection_chance = 0.1;
 var persons = [];
 var side_size = Math.sqrt(population_size);
 // var start_infected_chance = document.getElementById("in_inf_input").value;
-var start_infected_chance = 0.05;
+var start_infected_chance = 0.001;
 
 function populate() {
   // will be square
@@ -68,8 +70,32 @@ function getPosition() {
   return collumnNum, rowNum;
 }
 
+var startButton = document.getElementById("start_btn");
+startButton.onclick = start;
+
+var stopButton = document.getElementById("stop_btn");
+stopButton.onclick = stop;
+
+var doinfect = false;
+
+function start() {
+  doinfect = true;
+  recursive_infect();
+}
+
+function stop() {
+  doinfect = false;
+}
+
+function recursive_infect() {
+  infect();
+  if (doinfect) {
+    setTimeout(recursive_infect, 100);
+  }
+}
+
 function infect() {
-  var var_persons = JSON.parse(JSON.stringify(persons));
+  var temp_persons = JSON.parse(JSON.stringify(persons));
   num_infected = 0;
 
   for (var x = 0; x < persons.length; x++) {
@@ -78,10 +104,10 @@ function infect() {
         // above
         try {
           if (
-            Math.random() > infection_chance &&
-            !var_persons[x - 1][y].infected
+            Math.random() < infection_chance &&
+            !temp_persons[x - 1][y].infected
           ) {
-            var_persons[x - 1][y].infected = true;
+            temp_persons[x - 1][y].infected = true;
             num_infected++;
           }
         } catch (error) {
@@ -90,10 +116,10 @@ function infect() {
         // below
         try {
           if (
-            Math.random() > infection_chance &&
-            !var_persons[x + 1][y].infected
+            Math.random() < infection_chance &&
+            !temp_persons[x + 1][y].infected
           ) {
-            var_persons[x + 1][y].infected = true;
+            temp_persons[x + 1][y].infected = true;
             num_infected++;
           }
         } catch (error) {
@@ -102,10 +128,10 @@ function infect() {
         // left
         try {
           if (
-            Math.random() > infection_chance &&
-            !var_persons[x][y - 1].infected
+            Math.random() < infection_chance &&
+            !temp_persons[x][y - 1].infected
           ) {
-            var_persons[x][y - 1].infected = true;
+            temp_persons[x][y - 1].infected = true;
             num_infected++;
           }
         } catch (error) {
@@ -114,10 +140,10 @@ function infect() {
         // right
         try {
           if (
-            Math.random() > infection_chance &&
-            !var_persons[x][y + 1].infected
+            Math.random() < infection_chance &&
+            !temp_persons[x][y + 1].infected
           ) {
-            var_persons[x][y + 1].infected = true;
+            temp_persons[x][y + 1].infected = true;
             num_infected++;
           }
         } catch (error) {
@@ -126,11 +152,13 @@ function infect() {
       }
     }
   }
+
   console.log(num_infected);
-  persons = var_persons;
+  persons = temp_persons;
   time++;
   inf_arrx.push(time);
   inf_arry.push(countInfected());
+
   infChart.update();
   drawPeople();
   redraw();
