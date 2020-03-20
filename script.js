@@ -1,9 +1,11 @@
+/*jshint esversion: 6 */
+
 // setup chart
 var ctx = document.getElementById("myChart").getContext("2d");
 var population = 0; // current x value
 var time = 0; // current y value
-let arrx = []; // x data array
-let arry = []; // y data array
+var arrx = []; // x data array
+var arry = []; // y data array
 // initialize chart
 var myChart = new Chart(ctx, {
   type: "line",
@@ -153,6 +155,7 @@ stopButton.onclick = stop;
 function setup() {
   // put setup code here
   createCanvas(400, 400);
+  noStroke();
   background(220);
   populate();
   noLoop();
@@ -165,43 +168,108 @@ function draw() {
 
 // Start Population Code
 var persons = [];
-
+var population_size = 100;
+var infection_chance = 0.5;
 
 function populate() {
-  population_size = 100;
-
-  axis_size = Math.sqrt(population_size);
-
-  // xCoords = [];
-  // yCoords = [];
-  // infected = [];
+  // will be square
+  var side_size = Math.sqrt(population_size);
 
   class Person {
-    constructor(x, y, infected) {
-      this.x = x;
-      this.y = y;
+    constructor(infected) {
+      this.infected = infected;
     }
   }
 
-  // assume height = width
-  // space_between = 5; //px
-  var individual_size = height / axis_size / 1.5;
-  // var individual_size = 10;
+  var individual_size = height / side_size / 1.5;
 
-  for (var x = 0; x < axis_size; x++) {
-    // this is wrong
-    for (var y = 0; y < axis_size; y++) {
-      persons.push(
-        new Person(
-          x * (height / axis_size) + height / axis_size / 2,
-          y * (height / axis_size) + height / axis_size / 2
-        )
+  // populate persons array
+  for (var x = 0; x < side_size; x++) {
+    var temp_row = [];
+    for (var y = 0; y < side_size; y++) {
+      temp_row.push(new Person(false));
+    }
+    persons.push(temp_row);
+  }
+
+  // Used to draw people to screen
+  // for (var x = 0; x < side_size; x++) {
+  //   for (var y = 0; y < side_size; y++) {
+  //     persons.push(
+  //       new Person(
+  //         x * (height / side_size) + height / side_size / 2,
+  //         y * (height / side_size) + height / side_size / 2
+  //       )
+  //     );
+  //     // console.log("(" + x + ", " + y + ")");
+  //   }
+  // }
+
+  drawPeople(individual_size);
+}
+
+function getPosition(personNo) {
+  collumnNum = population_size % side_size;
+  rowNum = Math.floor(population_size / side_size);
+  return collumnNum, rowNum;
+}
+
+function infect(persons) {
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      // above
+      try {
+        if (Math.random() > infection_chance) {
+          persons[x - 1][y].infected = true;
+        }
+      } catch (error) {
+        //do nothing
+      }
+      // below
+      try {
+        if (Math.random() > infection_chance) {
+          persons[x + 1][y].infected = true;
+        }
+      } catch (error) {
+        //do nothing
+      }
+      // left
+      try {
+        if (Math.random() > infection_chance) {
+          persons[x][y - 1].infected = true;
+        }
+      } catch (error) {
+        //do nothing
+      }
+      // right
+      try {
+        if (Math.random() > infection_chance) {
+          persons[x][y + 1].infected = true;
+        }
+      } catch (error) {
+        // do nothing
+      }
+    }
+  }
+}
+
+var infectButton = document.getElementById("inf_btn");
+infectButton.onclick = infect;
+
+function drawPeople(individual_size) {
+  var side_size = Math.sqrt(population_size);
+  for (var x = 0; x < persons.length; x++) {
+    for (var y = 0; y < persons[0].length; y++) {
+      if (persons[x][y].infected) {
+        fill(color("#0f0"));
+      } else {
+        fill(color("#FFF"));
+      }
+      circle(
+        x * (height / side_size) + height / side_size / 2,
+        y * (height / side_size) + height / side_size / 2,
+        individual_size
       );
-      console.log("(" + x + ", " + y + ")");
     }
-  }
-
-  for (var i = 0; i < persons.length; i++) {
-    circle(persons[i].x, persons[i].y, individual_size);
   }
 }
