@@ -18,7 +18,7 @@ function setup() {
   canvas.parent('canvascontainer');
   noStroke();
   background(220);
-  populate();
+  // populate();
   noLoop();
   setupGraphs();
 }
@@ -28,17 +28,33 @@ function draw() {
   // loops forever unless noLoop is called
 }
 
-// Start Population Code
+// Settings ======================================================================
 var population_size = 10000;
-// var infection_chance = document.getElementById("inf_input").value;
-var infection_chance = 0.1;
-var persons = [];
-var side_size = Math.sqrt(population_size);
+
 // var start_infected_chance = document.getElementById("in_inf_input").value;
 var start_infected_chance = 0.001;
 
+// var infection_chance = document.getElementById("inf_input").value;
+var infection_chance = 0.1;
+
+var persons = [];
+var side_size = Math.sqrt(population_size);
+// ================================================================================
+
+var startButton = document.getElementById("start_btn");
+startButton.onclick = start;
+
+var stopButton = document.getElementById("stop_btn");
+stopButton.onclick = stop;
+
+var settingsButton = document.getElementById("set_btn");
+settingsButton.onclick = populate;
+
 function populate() {
   // will be square
+
+  infection_chance = document.getElementById("inf_input").value;
+  start_infected_chance = document.getElementById("in_inf_input").value;
 
   class Person {
     constructor(infected) {
@@ -69,12 +85,6 @@ function getPosition() {
   rowNum = Math.floor(population_size / side_size);
   return collumnNum, rowNum;
 }
-
-var startButton = document.getElementById("start_btn");
-startButton.onclick = start;
-
-var stopButton = document.getElementById("stop_btn");
-stopButton.onclick = stop;
 
 var doinfect = false;
 
