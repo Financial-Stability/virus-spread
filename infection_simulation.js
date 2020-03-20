@@ -53,12 +53,11 @@ settingsButton.onclick = applySettings;
 function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
-  // var inf_arrx = []; // x data array
-  // var inf_arry = []; // y data array
-  infChart.resize().clear();
+  time = 0;
+  var inf_arrx = []; // x data array
+  var inf_arry = []; // y data array
   populate();
   infChart.update();
-  time = 0;
 }
 
 function populate() {
