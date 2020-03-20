@@ -48,7 +48,7 @@ var stopButton = document.getElementById("stop_btn");
 stopButton.onclick = stop;
 
 var settingsButton = document.getElementById("set_btn");
-settingsButton.onclick = populate;
+settingsButton.onclick = applySettings;
 
 function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
