@@ -53,8 +53,8 @@ settingsButton.onclick = populate;
 function populate() {
   // will be square
 
-  infection_chance = document.getElementById("inf_input").value;
-  start_infected_chance = document.getElementById("in_inf_input").value;
+  infection_chance = document.getElementById("inf_input").value / 100;
+  start_infected_chance = document.getElementById("in_inf_input").value / 100;
 
   class Person {
     constructor(infected) {
