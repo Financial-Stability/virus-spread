@@ -154,6 +154,16 @@ startLogButton.onclick = logistic_growth;
 var stopButton = document.getElementById("stop_btn");
 stopButton.onclick = stop;
 
+function setupGraphs() {
+  arrx.push(time);
+  arry.push(population);
+  myChart.update();
+  
+  inf_arrx.push(time);
+  inf_arry.push(countInfected());
+  infChart.update();
+}
+
 function setup() {
   // put setup code here
   createCanvas(400, 400);
@@ -161,6 +171,7 @@ function setup() {
   background(220);
   populate();
   noLoop();
+  setupGraphs();
 }
 
 function draw() {
@@ -222,44 +233,43 @@ function getPosition() {
 
 function infect() {
   old_persons = JSON.parse(JSON.stringify(persons));
-  console.log(sheeps);
-  var number_infected = 0;
+  num_infected = 0;
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
         // above
         try {
-          if (Math.random() > infection_chance) {
+          if ((Math.random() > infection_chance) && !old_persons[x - 1][y].infected) {
             old_persons[x - 1][y].infected = true;
-            number_infected++;
+            num_infected++
           }
         } catch (error) {
           //do nothing
         }
         // below
         try {
-          if (Math.random() > infection_chance) {
+          if ((Math.random() > infection_chance) && !old_persons[x + 1][y].infected) {
             old_persons[x + 1][y].infected = true;
-            number_infected++;
+            num_infected++
           }
         } catch (error) {
           //do nothing
         }
         // left
         try {
-          if (Math.random() > infection_chance) {
+          if ((Math.random() > infection_chance) && !old_persons[x][y - 1].infected) {
             old_persons[x][y - 1].infected = true;
-            number_infected++;
+            num_infected++
           }
         } catch (error) {
           //do nothing
         }
         // right
         try {
-          if (Math.random() > infection_chance) {
+          if ((Math.random() > infection_chance) && !old_persons[x][y + 1].infected) {
             old_persons[x][y + 1].infected = true;
-            number_infected++;
+            num_infected++
           }
         } catch (error) {
           // do nothing
@@ -267,7 +277,7 @@ function infect() {
       }
     }
   }
-  console.log("Numer infected:", number_infected);
+  console.log(num_infected)
   persons = old_persons;
   time++;
   inf_arrx.push(time);
