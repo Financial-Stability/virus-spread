@@ -272,6 +272,7 @@ function infect() {
   time++;
   arrx.push(time);
   arry.push(countInfected());
+  infChart.update();
   drawPeople();
   redraw();
 }
@@ -319,13 +320,13 @@ var time = 0; // current y value
 var arrx = []; // x data array
 var arry = []; // y data array
 // initialize chart
-var myChart = new Chart(inf, {
+var infChart = new Chart(inf, {
   type: "line",
   data: {
     labels: arrx,
     datasets: [
       {
-        label: "Population",
+        label: "Infected Population",
         data: arry,
         borderWidth: 1
       }
