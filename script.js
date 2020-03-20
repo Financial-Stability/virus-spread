@@ -187,7 +187,11 @@ function populate() {
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
-      temp_row.push(new Person(false));
+      if (Math.random() < 0.1) {
+        temp_row.push(new Person(true));
+      } else {
+        temp_row.push(new Person(false));
+      }
     }
     persons.push(temp_row);
   }
