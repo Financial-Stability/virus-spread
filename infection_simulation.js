@@ -156,8 +156,8 @@ function infect() {
 function applyDeath(x, y, temp_persons) {
   // Should be called after if person is infected/immune/dead check is done
 
-  time_period = 0.9;
-  death_chance = time_period + 0.05;
+  time_period = 0.98;
+  death_chance = time_period + 0.01;
   // immune_chance = 0.05; The rest of the thing is immune chance
 
   try {
@@ -207,7 +207,7 @@ function drawPeople() {
         }
       } else {
         if (persons[x][y].immune) {
-          fill(color("#ffc0cb"));
+          fill(color("#ff69b4"));
         } else {
           fill(color("#FFF"));
         }
