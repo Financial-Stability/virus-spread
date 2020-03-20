@@ -56,6 +56,31 @@ function applySettings() {
   time = 0;
   var inf_arrx = []; // x data array
   var inf_arry = []; // y data array
+  var infChart = new Chart(inf, {
+    type: "line",
+    data: {
+      labels: inf_arrx,
+      datasets: [
+        {
+          label: "Infected Population",
+          data: inf_arry,
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              beginAtZero: true
+            }
+          }
+        ]
+      }
+    }
+  });
   populate();
   infChart.update();
 }
