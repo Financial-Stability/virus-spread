@@ -183,13 +183,17 @@ function populate() {
 
   // assume height = width
   // space_between = 5; //px
-  var individal_size = height / axis_size;
+  // var individal_size = height / axis_size;
+  var individal_size = 10;
 
   for (var x = 0; x < axis_size; x++) {
     // this is wrong
     for (var y = 0; y < axis_size; y++) {
       persons.push(
-        new Person(x * (height / axis_size), y * (height / axis_size))
+        new Person(
+          x * (height / axis_size) + individal_size,
+          y * (height / axis_size) + individual_size
+        )
       );
       console.log("(" + x + ", " + y + ")");
     }
