@@ -35,7 +35,9 @@ var infection_chance = 0.1;
 
 var persons = [];
 var side_size = Math.sqrt(population_size);
-// ================================================================================
+// Init ============================================================================
+
+var num_infected = 0;
 
 var startButton = document.getElementById("start_btn");
 startButton.onclick = start;
@@ -116,7 +118,6 @@ function recursive_infect() {
 
 function infect() {
   var temp_persons = JSON.parse(JSON.stringify(persons));
-  num_infected = 0;
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
@@ -274,7 +275,7 @@ var infChart = new Chart(inf, {
           ticks: {
             beginAtZero: true
           }
-          // stacked: true
+          stacked: true
         }
       ]
     }
