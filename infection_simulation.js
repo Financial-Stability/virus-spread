@@ -15,7 +15,7 @@ function setupGraphs() {
 function setup() {
   // put setup code here
   let canvas = createCanvas(600, 600);
-  canvas.parent('canvascontainer');
+  canvas.parent("canvascontainer");
   noStroke();
   background(220);
   // populate();
@@ -78,7 +78,7 @@ function populate() {
   var individual_size = height / side_size / 1.5;
 
   // populate persons array
-  var temp_persons = []
+  var temp_persons = [];
 
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
@@ -189,9 +189,7 @@ function infect() {
   redraw();
 }
 
-function tryInfect(){
-  
-}
+function tryInfect() {}
 
 function drawPeople() {
   var side_size = Math.sqrt(population_size);
@@ -237,19 +235,21 @@ var infChart = new Chart(inf, {
   type: "line",
   data: {
     labels: arrx,
-    datasets:
-    [{
-      // This dataset appears on the first axis
-      label: "Infected Population",
+    datasets: [
+      {
+        // This dataset appears on the first axis
+        label: "Infected Population",
         data: arry,
         // data: [arry, arrx]
         borderWidth: 1,
-        backgroundColor: "#0f0"
-      yAxisID: 'first-y-axis'
-  }, {
-      // This dataset appears on the second axis
-      yAxisID: 'second-y-axis'
-  }]
+        backgroundColor: "#0f0",
+        yAxisID: "first-y-axis"
+      },
+      {
+        // This dataset appears on the second axis
+        yAxisID: "second-y-axis"
+      }
+    ]
   },
   options: {
     maintainAspectRatio: false,
@@ -258,7 +258,7 @@ var infChart = new Chart(inf, {
         {
           ticks: {
             beginAtZero: true
-          },
+          }
           // stacked: true
         }
       ]
