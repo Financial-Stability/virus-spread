@@ -7,12 +7,12 @@ var inf = document.getElementById("infectedChart").getContext("2d");
 // countInfected(); // current x value
 var time = 0; // current y value
 var arrx = []; // x data array
-var arrys = [][];
 
-// var arry = []; // y data array
-// var arry2 = []; // y data array
-// var arry3 = []; // y data array
-// var arry4 = []; // y data array
+// var arrys = new Array(4);
+// for (var i = 0; i < arrys.length; i++) {
+//   arrys[i] = [];
+// }
+var arrys = [[], [], [], []];
 
 // initialize chart
 var infChart = new Chart(inf, {
@@ -23,27 +23,27 @@ var infChart = new Chart(inf, {
       {
         // This dataset appears on the first axis
         label: "Infected Population",
-        data: arry[0],
+        data: arrys[0],
         borderWidth: 1,
-        backgroundColor: 'rgba(0, 255, 0, 0.1)'
-      },
-      {
-        // This dataset appears on the second axis
-        label: "Dead Population",
-        data: arry[1],
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+        backgroundColor: "rgba(0, 255, 0, 0.5)"
       },
       {
         // This dataset appears on the second axis
         label: "Immune Population",
-        data: arry[2],
-        backgroundColor: 'rgba(255, 105, 180, 0.1)'
+        data: arrys[2],
+        backgroundColor: "rgba(255, 105, 180, 0.5)"
+      },
+      {
+        // This dataset appears on the second axis
+        label: "Dead Population",
+        data: arrys[1],
+        backgroundColor: "rgba(0, 0, 0, 0.5)"
       },
       {
         // This dataset appears on the second axis
         label: "Healthy Population",
-        data: arry[3]
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+        data: arrys[3],
+        backgroundColor: "rgba(50, 50, 50, 0.5)"
       }
     ]
   },
@@ -64,8 +64,12 @@ var infChart = new Chart(inf, {
 
 function setupGraphs() {
   arrx.push(time);
-  arry.push(countInfected());
-  arry2.push(countDead());
+
+  arrys[0].push(getTotals().infected);
+  arrys[1].push(getTotals().dead);
+  arrys[2].push(getTotals().immune);
+  arrys[3].push(getTotals().healthy);
+
   infChart.update();
 }
 
@@ -117,8 +121,12 @@ function applySettings() {
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
   time = 0;
   arrx.length = 0;
-  arry.length = 0;
-  arry2.length = 0;
+
+  arrys[0].length = 0;
+  arrys[1].length = 0;
+  arrys[2].length = 0;
+  arrys[3].length = 0;
+
   populate();
   infChart.update();
 }
@@ -201,12 +209,17 @@ function infect() {
     }
   }
 
-  console.log(num_infected);
+  // console.log(num_infected);
+
   persons = temp_persons;
   time++;
+
   arrx.push(time);
-  arry.push(countInfected());
-  arry2.push(countDead());
+
+  arrys[0].push(getTotals().infected);
+  arrys[1].push(getTotals().dead);
+  arrys[2].push(getTotals().immune);
+  arrys[3].push(getTotals().healthy);
 
   infChart.update();
   drawPeople();
@@ -221,17 +234,17 @@ function applyDeath(x, y, temp_persons) {
   // immune_chance = 0.05; The rest of the thing is immune chance
 
   try {
-    random_number = Math.random(0,1);
-    if (!temp_persons[x][y].dead){
-    if (random_number > death_chance) {
-      temp_persons[x][y].immune = true;
-      temp_persons[x][y].infected = false;
-    } else if (random_number > time_period) {
-      temp_persons[x][y].dead = true;
-    } else {
-      //do nothing
+    random_number = Math.random(0, 1);
+    if (!temp_persons[x][y].dead) {
+      if (random_number > death_chance) {
+        temp_persons[x][y].immune = true;
+        temp_persons[x][y].infected = false;
+      } else if (random_number > time_period) {
+        temp_persons[x][y].dead = true;
+      } else {
+        //do nothing
+      }
     }
-  }
   } catch {
     //do nothing
   }
@@ -263,15 +276,15 @@ function drawPeople() {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y].infected) {
         if (persons[x][y].dead) {
-          fill(color('rgb(0, 0, 0)'));
+          fill(color("rgb(0, 0, 0)"));
         } else {
-          fill(color('rgb(0, 255, 0)'));
+          fill(color("rgb(0, 255, 0)"));
         }
       } else {
         if (persons[x][y].immune) {
-          fill(color('rgb(255, 105, 180)'));
+          fill(color("rgb(255, 105, 180)"));
         } else {
-          fill(color('rgb(255, 255, 255)'));
+          fill(color("rgb(255, 255, 255)"));
         }
       }
       circle(
@@ -285,8 +298,6 @@ function drawPeople() {
 
 // graph functions
 
-
-
 function getTotals() {
   infected = 0;
   dead = 0;
@@ -297,73 +308,18 @@ function getTotals() {
     return 0;
   }
 
-  bHealth = true;
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].infected) {
-        infected++;
-        bHealth = false;
-      }
       if (persons[x][y].dead) {
         dead++;
-        bHealth = false;
-      }
-      if (persons[x][y].immune) {
+      } else if (persons[x][y].immune) {
         immune++;
-        bHealth = false;
-      }
-      if (bHealth){
-        healthy++
-      }
-    }
-  }
-  return infected, dead, immune, healthy;
-}
-
-
-function countInfected() {
-  infected = 0;
-  if (persons.length == 0) {
-    return 0;
-  }
-  for (var x = 0; x < persons.length; x++) {
-    for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].infected) {
+      } else if (persons[x][y].infected) {
         infected++;
-      }
-    }
-  }
-  return infected;
-}
-
-function countHealthy() {
-  healthy = 0;
-  if (persons.length == 0) {
-    return 0;
-  }
-  for (var x = 0; x < persons.length; x++) {
-    for (var y = 0; y < persons[0].length; y++) {
-      if (!persons[x][y].infected) {
+      } else {
         healthy++;
       }
     }
   }
-  return healthy;
+  return { infected: infected, dead: dead, immune: immune, healthy: healthy };
 }
-
-function countDead() { // TODO fix this
-  dead = 0;
-  if (persons.length == 0) {
-    return 0;
-  }
-  for (var x = 0; x < persons.length; x++) {
-    for (var y = 0; y < persons[0].length; y++) {
-      if (!persons[x][y].infected) {
-        dead++;
-      }
-    }
-  }
-  return dead;
-}
-
-
