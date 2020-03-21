@@ -20,8 +20,15 @@
     <br />
 
     <h3>Settings:</h3>
+
+
     <ul>
-      <div id="settings_numbers">
+      <div>
+        <button class="tab" onclick="openSetting('population_settings')">Population</button>
+        <button class="tab" onclick="openSetting('infection_settings')">Infection</button>
+      </div>
+
+      <div id="population_settings" class="settings">
         <label for="pop_size_input">population size (#)</label>
         <input
           type="number"
@@ -38,6 +45,7 @@
           min="1"
           max="1000"
         /><br />
+
         <label for="in_inf_input">initial infection chance (%)</label>
         <input
           type="number"
@@ -46,6 +54,9 @@
           min="0"
           max="100"
         /><br />
+      </div>
+
+      <div id="infection_settings" class="settings" style="display:none">
         <label for="inf_input">infection chance (%)</label>
         <input
           type="number"
@@ -62,10 +73,9 @@
           min="0"
           max="100"
         /><br />
-      </div>
-      <div id="settings_toggle">
         <input type="checkbox" id="dev_imm" name="develop immunity" />
-        <label for="dev_imm">people develop immunity</label><br />
+        <label for="dev_imm">people develop immunity</label
+        ><br />
         <ul id="immunity_settings">
           <label for="imm_input">number of survivials for immunity (#)</label>
           <input
@@ -77,7 +87,8 @@
           />
         </ul>
         <input type="checkbox" id="imm_infect" name="immune infect" />
-        <label for="imm_infect">immune people infect others</label><br />
+        <label for="imm_infect">immune people infect others</label
+        ><br />
         <input type="checkbox" id="imm_recover" name="immune recover" />
         <label for="imm_recover">immune people recover</label>
         <ul id="recovery_time_settings">
@@ -90,12 +101,15 @@
             max="1000"
           />
         </ul>
+        <br />
+        <br />
+      
       </div>
-      <br />
-      <br />
-      <button id="set_btn">enter settings and reset</button>
+
     </ul>
 
+    <button id="set_btn">enter settings and reset</button>
+    
     <h3>Simulation:</h3>
     <ul>
       <button id="inf_btn">step!</button>
@@ -111,5 +125,6 @@
     <script src="Chart.js"></script>
     <script src="p5/p5.js"></script>
     <script src="infection_simulation.js"></script>
+    <script src="infection_visuals.js"></script>
   </body>
 </html>

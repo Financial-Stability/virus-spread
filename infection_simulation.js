@@ -65,37 +65,6 @@ settingsButton.onclick = applySettings;
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
 
-// show/hide buttons
-
-var immune_recover = document.getElementById("dev_imm");
-immune_recover.onclick = function() {
-  if (document.getElementById("dev_imm").checked) {
-    document.getElementById("immunity_settings").style.display = "block";
-  } else {
-    document.getElementById("immunity_settings").style.display = "none";
-  }
-};
-
-var immune_recover = document.getElementById("imm_recover");
-immune_recover.onclick = function() {
-  if (document.getElementById("imm_recover").checked) {
-    document.getElementById("recovery_time_settings").style.display = "block";
-  } else {
-    document.getElementById("recovery_time_settings").style.display = "none";
-  }
-};
-
-var showhidegraphButton = document.getElementById("showhide_graph");
-showhidegraphButton.onclick = function() {
-  if (document.getElementById("chart-container").style.display == "none") {
-    document.getElementById("chart-container").style.display = "block";
-  } else if (
-    document.getElementById("chart-container").style.display == "block"
-  ) {
-    document.getElementById("chart-container").style.display = "none";
-  }
-};
-
 /**
  * Applies settings from html inputs into backend
  */
@@ -149,13 +118,13 @@ var infChart = new Chart(inf, {
         // immune population
         label: "Immune Population",
         data: arrys[2],
-        backgroundColor: "rgba(255, 105, 180, 1)"
+        backgroundColor: "rgba(194, 208, 118, 1)"
       },
       {
         // dead population
         label: "Dead Population",
         data: arrys[1],
-        backgroundColor: "rgba(0, 0, 0, 1)"
+        backgroundColor: "rgba(35, 51, 41, 1)"
       },
       {
         // healthy population
@@ -185,7 +154,10 @@ var infChart = new Chart(inf, {
  * Sets up graph for the first time by pushing initial values
  */
 function setupGraphs() {
-  arrx.push(time);
+  console.log(getTotals().infected);
+  console.log(getTotals().dead);
+  console.log(getTotals().immune);
+  console.log(getTotals().healthy);
 
   arrys[0].push(getTotals().infected);
   arrys[1].push(getTotals().dead);
@@ -208,8 +180,9 @@ function setup() {
   noStroke();
   background(220);
   noLoop();
-  setupGraphs();
   applySettings();
+  setupGraphs();
+  setupGraphs();
 }
 
 /**
@@ -324,8 +297,8 @@ function doTimestep() {
   persons = temp_persons;
 
   // apply to graphs
-  time++;
   arrx.push(time);
+  time++;
   arrys[0].push(getTotals().infected);
   arrys[1].push(getTotals().dead);
   arrys[2].push(getTotals().immune);
@@ -418,14 +391,14 @@ function drawPeople() {
     for (var y = 0; y < persons[0].length; y++) {
       if (x * side_size + y < population_size) {
         if (persons[x][y].dead) {
-          fill(color("rgb(0, 0, 0)"));
+          fill(color("rgb(35, 51, 41)")); // dead color
         } else if (persons[x][y].immune) {
-          fill(color("rgb(255, 105, 180)"));
+          fill(color("rgb(255, 160, 253)")); // immune color
         } else {
           if (persons[x][y].infected) {
-            fill(color("rgb(0, 255, 0)"));
+            fill(color("rgb(194, 208, 118)")); // infected color
           } else {
-            fill(color("rgb(220, 220, 220)"));
+            fill(color("rgb(200, 200, 200)")); // healthy color
           }
         }
         circle(
