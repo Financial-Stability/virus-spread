@@ -2,11 +2,20 @@
 
 /**
  * TODO LIST
- * 
+ *
+ * simulation
  * TODO: Grouping (boundaries are same thing?)
  * TODO: Travel
  * TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
+ * TODO: find way to fix the fact that virus can only spread to adjacent stops exponential growth, maybe with a spread radius variable
+ *
+ * settings UI
  * TODO: have input for population arrows increment by square numbers using the step attribute
+ * TODO: sliders will be much nicer
+ * TODO: tabbed settings
+ *
+ * TODO: general theme and css styling
+ * TODO: style buttons
  */
 
 /**
@@ -23,6 +32,7 @@ var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
 var immune_infect_others = false;
 var immune_recover = true;
+var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
 
@@ -37,6 +47,7 @@ document.getElementById("death_input").value = death_chance * 100;
 document.getElementById("imm_input").value = immune_develop_num;
 document.getElementById("imm_infect").checked = immune_infect_others;
 document.getElementById("imm_recover").checked = immune_recover;
+document.getElementById("dev_imm").checked = develop_immunity;
 document.getElementById("imm_recover_time").value = time_to_recover;
 document.getElementById("sim_spd_input").value = sim_spd;
 document.getElementById("pop_size_input").value = population_size;
@@ -55,6 +66,15 @@ var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
 
 // show/hide buttons
+
+var immune_recover = document.getElementById("dev_imm");
+immune_recover.onclick = function() {
+  if (document.getElementById("dev_imm").checked) {
+    document.getElementById("immunity_settings").style.display = "block";
+  } else {
+    document.getElementById("immunity_settings").style.display = "none";
+  }
+};
 
 var immune_recover = document.getElementById("imm_recover");
 immune_recover.onclick = function() {
@@ -87,6 +107,7 @@ function applySettings() {
   immune_develop_num = document.getElementById("imm_input").value;
   immune_infect_others = document.getElementById("imm_infect").checked;
   immune_recover = document.getElementById("imm_recover").checked;
+  develop_immunity = document.getElementById("dev_imm").checked;
   time_to_recover = document.getElementById("imm_recover_time").value;
   sim_spd = document.getElementById("sim_spd_input").value;
   population_size = document.getElementById("pop_size_input").value;
@@ -325,7 +346,10 @@ function applyInfection(x, y, temp_persons) {
     random_number = Math.random(0, 1);
     // if not dead or immune
     if (!temp_persons[x][y].dead && !temp_persons[x][y].immune) {
-      if (temp_persons[x][y].survivedTime >= immune_develop_num) {
+      if (
+        develop_immunity &&
+        temp_persons[x][y].survivedTime >= immune_develop_num
+      ) {
         // lived long enough with infection to develop immunity
         temp_persons[x][y].immune = true;
         temp_persons[x][y].survivedTime = 0;
