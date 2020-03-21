@@ -175,7 +175,7 @@ function setupGraphs() {
  * Setup function that runs once to setup p5 stuff
  */
 function setup() {
-  let canvas = createCanvas(600, 600);
+  let canvas = createCanvas(displayWidth / 2, displayWidth / 2);
   canvas.parent("canvascontainer");
   noStroke();
   background(220);
