@@ -131,10 +131,6 @@ function logistic_growth_helper() {
   }
 }
 
-function stop() {
-  grow = false;
-}
-
 // graph buttons
 
 var incBtn = document.getElementById("inc_num_btn");
@@ -150,4 +146,17 @@ var startLogButton = document.getElementById("log_start_btn");
 startLogButton.onclick = logistic_growth;
 
 var stopButton = document.getElementById("stop_btn");
-stopButton.onclick = stop;
+stopButton.onclick = function() {
+  grow = false;
+};
+
+var resetButton = document.getElementById("reset_btn");
+resetButton.onclick = function() {
+  arrx.length = 0;
+  arry.length = 0;
+  grow = false;
+  population = 0;
+  time = 0;
+  myChart.update();
+  document.getElementById("display_num").innerHTML = population;
+};
