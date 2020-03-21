@@ -231,17 +231,21 @@ function populate() {
 
   // fill with spaces
   side_size = Math.ceil(side_size / (1 - percent_empty)); // make bigger
+  var placed = 0;
 
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
       // if need more people, maybe place
-      if (x * side_size + y < population_size) {
+      if (placed < population_size && Math.random() < percent_empty) { // For every person
         if (Math.random() < start_infected_chance) {
           temp_row.push(new Person(true));
         } else {
           temp_row.push(new Person(false));
         }
+        placed++;
+      } else {
+        temp_row.push(null);
       }
     }
     temp_persons.push(temp_row);
