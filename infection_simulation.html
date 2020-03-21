@@ -4,10 +4,7 @@
     <link rel="stylesheet" type="text/css" href="infection_simulation.css" />
   </head>
   <body>
-    <h1>
-      Virus Spread
-    </h1>
-
+    <h1>Virus Spread</h1>
     <nav>
       <ul>
         <li><a href="./infection_simulation.html">infection sim</a></li>
@@ -60,23 +57,25 @@
       <label for="imm_infect">Immune people infect others</label
       ><br />
       <input type="checkbox" id="imm_recover" name="immune recover" />
-      <label for="imm_recover">Immune people recover</label
-      ><br />
+      <label for="imm_recover">Immune people recover</label>
       <div id="recovery_time_settings">
-        <label for="imm_recover_time">recovery time (#)</label>
-        <input
-          type="number"
-          id="imm_recover_time"
-          name="immunity recovery time"
-          min="0"
-          max="1000"
-        /><br />
+        <ul>
+          <label for="imm_recover_time">recovery time (#)</label>
+          <input
+            type="number"
+            id="imm_recover_time"
+            name="immunity recovery time"
+            min="0"
+            max="1000"
+          />
+        </ul>
       </div>
+      <br />
       <br />
       <button id="set_btn">enter settings and reset</button>
     </ul>
-    <h3>Simulation:</h3>
 
+    <h3>Simulation:</h3>
     <ul>
       <button id="inf_btn">infect!</button>
       <button id="start_btn">start!</button>
@@ -84,6 +83,7 @@
     </ul>
     <div id="canvascontainer"></div>
 
+    <!-- Scripts -->
     <script src="Chart.js"></script>
     <script src="p5/p5.js"></script>
     <script src="infection_simulation.js"></script>
