@@ -6,6 +6,7 @@
  * TODO: Grouping (boundaries are same thing?)
  * TODO: Travel
  * TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
+ * TODO: have input for population arrows increment by square numbers using the step attribute
  */
 
 /**
