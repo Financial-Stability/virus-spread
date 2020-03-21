@@ -21,44 +21,53 @@
       <canvas id="infectedChart" width="200" height="200"></canvas>
     </div>
 
-    <label for="in_inf_input">initial infection chance</label>
+    <label for="in_inf_input">initial infection chance (%)</label>
     <input
       type="number"
       id="in_inf_input"
       name="initial infection chance"
       min="0"
       max="100"
-      value=1
     /><br />
-    <label for="inf_input">infection chance</label>
+    <label for="inf_input">infection chance (%)</label>
     <input
       type="number"
       id="inf_input"
       name="infection chance"
       min="0"
       max="100"
-      value=10
     /><br />
-    <label for="death_input">death chance for infected</label>
+    <label for="death_input">death chance for infected (%)</label>
     <input
       type="number"
       id="death_input"
       name="death chance"
       min="0"
       max="100"
-      value=10
     /><br />
-    <label for="imm_input">number of survivials for immunity</label>
+    <label for="imm_input">number of survivials for immunity (#)</label>
     <input
       type="number"
       id="imm_input"
       name="immunity development number"
       min="0"
       max="1000"
-      value=10
     /><br />
+    <input type="checkbox" id="imm_infect" name="immune infect" />
+    <label for="imm_infect">Immune people infect others</label><br />
+    <input type="checkbox" id="imm_recover" name="immune recover" />
+    <label for="imm_recover">Immune people recover</label><br />
+    <div id="recovery_time_settings">
+    <label for="imm_recover_time">recovery time (#)</label>
+    <input
+      type="number"
+      id="imm_recover_time"
+      name="immunity recovery time"
+      min="0"
+      max="1000"
+    /><br /></div>
 
-    <button id="set_btn">enter settings</button><br/>
+    <button id="set_btn">enter settings and reset</button><br />
     <button id="inf_btn">infect!</button>
     <button id="start_btn">start!</button>
     <button id="stop_btn">stop!</button>
