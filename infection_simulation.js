@@ -23,7 +23,7 @@
  */
 
 // simulation variables
-var population_size = 90 * 90; // have default value be square number to fill nicely
+var population_size = 50 * 50; // have default value be square number to fill nicely
 var start_infected_chance = 0.005;
 var infection_chance = 0.15;
 var death_chance = 0.1;
@@ -36,6 +36,7 @@ var immune_recover = true;
 var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
+var percent_empty = 0.5;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
@@ -212,23 +213,39 @@ function populate() {
   var temp_persons = [];
 
   // fill shoulder to shoulder
+  // for (var x = 0; x < side_size; x++) {
+  //   var temp_row = [];
+  //   for (var y = 0; y < side_size; y++) {
+  //     if (x * side_size + y < population_size) {
+  //       if (Math.random() < start_infected_chance) {
+  //         temp_row.push(new Person(true));
+  //       } else {
+  //         temp_row.push(new Person(false));
+  //       }
+  //     } else {
+  //       temp_row.push(null);
+  //     }
+  //   }
+  //   temp_persons.push(temp_row);
+  // }
+
+  // fill with spaces
+  side_size = Math.ceil(side_size / (1 - percent_empty)); // make bigger
+
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
+      // if need more people, maybe place
       if (x * side_size + y < population_size) {
         if (Math.random() < start_infected_chance) {
           temp_row.push(new Person(true));
         } else {
           temp_row.push(new Person(false));
         }
-      } else {
-        temp_row.push(null);
       }
     }
     temp_persons.push(temp_row);
   }
-
-  // fill with spaces
 
   persons = JSON.parse(JSON.stringify(temp_persons));
   drawPeople();
