@@ -12,7 +12,7 @@
  * settings UI
  * TODO: have input for population arrows increment by square numbers using the step attribute
  * TODO: sliders will be much nicer
- * TODO: tabbed settings
+ * TODO: tabbed settings, like this https://www.w3schools.com/w3css/w3css_tabulators.asp
  *
  * TODO: general theme and css styling
  * TODO: style buttons

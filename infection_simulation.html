@@ -21,74 +21,76 @@
 
     <h3>Settings:</h3>
     <ul>
-      <label for="pop_size_input">population size (#)</label>
-      <input
-        type="number"
-        id="pop_size_input"
-        name="population size"
-        min="1"
-        max="100000"
-      /><br />
-      <label for="sim_spd_input">simulation speed (#ms)</label>
-      <input
-        type="number"
-        id="sim_spd_input"
-        name="simulation speed"
-        min="1"
-        max="1000"
-      /><br />
-      <label for="in_inf_input">initial infection chance (%)</label>
-      <input
-        type="number"
-        id="in_inf_input"
-        name="initial infection chance"
-        min="0"
-        max="100"
-      /><br />
-      <label for="inf_input">infection chance (%)</label>
-      <input
-        type="number"
-        id="inf_input"
-        name="infection chance"
-        min="0"
-        max="100"
-      /><br />
-      <label for="death_input">death chance for infected (%)</label>
-      <input
-        type="number"
-        id="death_input"
-        name="death chance"
-        min="0"
-        max="100"
-      /><br />
-      <input type="checkbox" id="dev_imm" name="develop immunity" />
-      <label for="dev_imm">people develop immunity</label
-      ><br />
-      <ul id="immunity_settings">
-        <label for="imm_input">number of survivials for immunity (#)</label>
+      <div id="settings_numbers">
+        <label for="pop_size_input">population size (#)</label>
         <input
           type="number"
-          id="imm_input"
-          name="immunity development number"
-          min="0"
-          max="1000"
-        />
-      </ul>
-      <input type="checkbox" id="imm_infect" name="immune infect" />
-      <label for="imm_infect">immune people infect others</label
-      ><br />
-      <input type="checkbox" id="imm_recover" name="immune recover" />
-      <label for="imm_recover">immune people recover</label>
-      <ul id="recovery_time_settings">
-        <label for="imm_recover_time">recovery time (#)</label>
+          id="pop_size_input"
+          name="population size"
+          min="1"
+          max="100000"
+        /><br />
+        <label for="sim_spd_input">simulation speed (#ms)</label>
         <input
           type="number"
-          id="imm_recover_time"
-          name="immunity recovery time"
-          min="0"
+          id="sim_spd_input"
+          name="simulation speed"
+          min="1"
           max="1000"
-        />
-      </ul>
+        /><br />
+        <label for="in_inf_input">initial infection chance (%)</label>
+        <input
+          type="number"
+          id="in_inf_input"
+          name="initial infection chance"
+          min="0"
+          max="100"
+        /><br />
+        <label for="inf_input">infection chance (%)</label>
+        <input
+          type="number"
+          id="inf_input"
+          name="infection chance"
+          min="0"
+          max="100"
+        /><br />
+        <label for="death_input">death chance for infected (%)</label>
+        <input
+          type="number"
+          id="death_input"
+          name="death chance"
+          min="0"
+          max="100"
+        /><br />
+      </div>
+      <div id="settings_toggle">
+        <input type="checkbox" id="dev_imm" name="develop immunity" />
+        <label for="dev_imm">people develop immunity</label><br />
+        <ul id="immunity_settings">
+          <label for="imm_input">number of survivials for immunity (#)</label>
+          <input
+            type="number"
+            id="imm_input"
+            name="immunity development number"
+            min="0"
+            max="1000"
+          />
+        </ul>
+        <input type="checkbox" id="imm_infect" name="immune infect" />
+        <label for="imm_infect">immune people infect others</label><br />
+        <input type="checkbox" id="imm_recover" name="immune recover" />
+        <label for="imm_recover">immune people recover</label>
+        <ul id="recovery_time_settings">
+          <label for="imm_recover_time">recovery time (#)</label>
+          <input
+            type="number"
+            id="imm_recover_time"
+            name="immunity recovery time"
+            min="0"
+            max="1000"
+          />
+        </ul>
+      </div>
       <br />
       <br />
       <button id="set_btn">enter settings and reset</button>
