@@ -279,10 +279,10 @@ function doTimestep() {
           (!persons[x][y].immune || immune_infect_others)
         ) {
           // infect others
-          temp_persons = infectOthers(x - 1, y, temp_persons); //Left
-          temp_persons = infectOthers(x + 1, y, temp_persons); //Right
-          temp_persons = infectOthers(x, y - 1, temp_persons); //Up
-          temp_persons = infectOthers(x, y + 1, temp_persons); //Down
+          temp_persons = infectOthers(x - 1, y, temp_persons); // Left
+          temp_persons = infectOthers(x + 1, y, temp_persons); // Right
+          temp_persons = infectOthers(x, y - 1, temp_persons); // Up
+          temp_persons = infectOthers(x, y + 1, temp_persons); // Down
 
           // effects of infection on person (death, immunity)
           temp_persons = applyInfection(x, y, temp_persons);
