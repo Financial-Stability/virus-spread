@@ -23,8 +23,8 @@
  */
 
 // simulation variables
-var population_size = 50 * 50; // have default value be square number to fill nicely
-var start_infected_chance = 0.005;
+var population_size = 30 * 30; // have default value be square number to fill nicely
+var start_infected_chance = 0.05;
 var infection_chance = 0.15;
 var death_chance = 0.1;
 var immune_develop_num = 5;
@@ -260,15 +260,6 @@ function populate() {
   drawPeople();
 }
 
-/**
- *
- */
-function getPosition() {
-  collumnNum = population_size % side_size;
-  rowNum = Math.floor(population_size / side_size);
-  return collumnNum, rowNum;
-}
-
 // sentinel variable to control animations
 var do_animation = false;
 
@@ -325,6 +316,20 @@ function doTimestep() {
         if (immune_recover && persons[x][y].immune) {
           temp_persons = applyRecovery(x, y, temp_persons);
         }
+
+        if (!temp_persons[x][y].dead) {
+          // move randomly
+          var randomnum = Math.random();
+          if (randomnum < 0.1) {
+            temp_persons = movePerson(x, y, temp_persons, "right");
+          } else if (randomnum < 0.2) {
+            temp_persons = movePerson(x, y, temp_persons, "left");
+          } else if (randomnum < 0.3) {
+            temp_persons = movePerson(x, y, temp_persons, "up");
+          } else if (randomnum < 0.4) {
+            temp_persons = movePerson(x, y, temp_persons, "down");
+          }
+        }
       } else {
         // do nothing
       }
@@ -342,6 +347,47 @@ function doTimestep() {
   infChart.update();
   // apply to p5
   drawPeople();
+}
+
+/**
+ *
+ * @param {*} x
+ * @param {*} y
+ * @param {*} temp_persons
+ * @param {*} direction direction to move. one of: "up" "down" "left" "right"
+ */
+function movePerson(x, y, temp_persons, direction) {
+  if (
+    x + 1 < temp_persons.length &&
+    temp_persons[x + 1][y] == null &&
+    direction === "right"
+  ) {
+    temp_persons[x + 1][y] = temp_persons[x][y];
+    temp_persons[x][y] = null;
+  } else if (
+    x - 1 > 0 &&
+    temp_persons[x - 1][y] == null &&
+    direction === "left"
+  ) {
+    temp_persons[x - 1][y] = temp_persons[x][y];
+    temp_persons[x][y] = null;
+  } else if (
+    y + 1 < temp_persons.length &&
+    temp_persons[x][y + 1] == null &&
+    direction === "up"
+  ) {
+    temp_persons[x][y + 1] = temp_persons[x][y];
+    temp_persons[x][y] = null;
+  } else if (
+    y - 1 > 0 &&
+    temp_persons[x][y - 1] == null &&
+    direction === "down"
+  ) {
+    temp_persons[x][y - 1] = temp_persons[x][y];
+    temp_persons[x][y] = null;
+  }
+
+  return temp_persons;
 }
 
 /**
