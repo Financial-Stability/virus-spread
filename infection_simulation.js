@@ -1,10 +1,18 @@
 /*jshint esversion: 6 */
 
 /**
+ * TODO LIST
+ * 
+ * TODO: Grouping (boundaries are same thing?)
+ * TODO: Travel
+ * TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
+ */
+
+/**
  * Initialize Variables
  */
 
-var population_size = 70 * 70;
+var population_size = 70 * 70; // have default value be square number to fill nicely
 var start_infected_chance = 0.005;
 var infection_chance = 0.15;
 var death_chance = 0.1;
@@ -351,12 +359,7 @@ function infectOthers(x, y, temp_persons) {
   } catch (error) {}
   return temp_persons;
 }
-// TODO: Grouping (boundaries are same thing?)
-// TODO: Travel
-// TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
 
-// the reason for having this is because you can catch the disease and revover and catch it again
-// - avery
 /**
  * Tracks person's recovery after becoming immune to becoming healthy again. (A normal person who can be infected again)
  * Should be called after if person is infected/immune/dead check is done
@@ -372,7 +375,7 @@ function applyRecovery(x, y, temp_persons) {
       temp_persons[x][y].immune = false;
       temp_persons[x][y].survivedTime = 0;
     } else {
-      // need more time
+      // more time until recovered
       temp_persons[x][y].survivedTime++;
     }
   } catch (error) {}
@@ -420,7 +423,7 @@ function getTotals() {
   infected = 0;
   dead = 0;
   immune = 0;
-  healthy = 0; // not immune
+  healthy = 0;
 
   if (persons.length == 0) {
     return 0;
