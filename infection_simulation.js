@@ -42,6 +42,8 @@ settingsButton.onclick = applySettings;
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
 
+// show/hide buttons
+
 var immune_recover = document.getElementById("imm_recover");
 immune_recover.onclick = function() {
   if (document.getElementById("imm_recover").checked) {
@@ -53,10 +55,10 @@ immune_recover.onclick = function() {
 
 var showhidegraphButton = document.getElementById("showhide_graph");
 showhidegraphButton.onclick = function() {
-  if (document.getElementById("chart-container").style.display == "block") {
-    document.getElementById("chart-container").style.display = "none";
-  } else {
+  if (document.getElementById("chart-container").style.display == "none") {
     document.getElementById("chart-container").style.display = "block";
+  } else if (document.getElementById("chart-container").style.display == "block") {
+    document.getElementById("chart-container").style.display = "none";
   }
 };
 
@@ -168,6 +170,7 @@ function setup() {
   background(220);
   noLoop();
   setupGraphs();
+  applySettings();
 }
 
 /**
