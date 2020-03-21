@@ -36,6 +36,13 @@ var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
 
+// Colors
+var dead_color = "rgb(49, 62, 80)";
+var immune_color = "rgb(255, 160, 253)";
+var infected_color = "rgb(97, 152, 142)";
+var healthy_color = "rgb(200, 200, 200)";
+
+
 /**
  * Initialize Inputs
  */
@@ -64,6 +71,7 @@ settingsButton.onclick = applySettings;
 
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
+
 
 /**
  * Applies settings from html inputs into backend
@@ -112,25 +120,25 @@ var infChart = new Chart(inf, {
         label: "Infected Population",
         data: arrys[0],
         borderWidth: 1,
-        backgroundColor: "rgba(0, 255, 0, 1)"
+        backgroundColor: infected_color
       },
       {
         // immune population
         label: "Immune Population",
         data: arrys[2],
-        backgroundColor: "rgba(194, 208, 118, 1)"
+        backgroundColor: immune_color
       },
       {
         // dead population
         label: "Dead Population",
         data: arrys[1],
-        backgroundColor: "rgba(35, 51, 41, 1)"
+        backgroundColor: dead_color
       },
       {
         // healthy population
         label: "Healthy Population",
         data: arrys[3],
-        backgroundColor: "rgba(50, 50, 50, 1)"
+        backgroundColor: healthy_color
       }
     ]
   },
@@ -387,14 +395,14 @@ function drawPeople() {
     for (var y = 0; y < persons[0].length; y++) {
       if (x * side_size + y < population_size) {
         if (persons[x][y].dead) {
-          fill(color("rgb(49, 62, 80)")); // dead color
+          fill(color(dead_color)); // dead color
         } else if (persons[x][y].immune) {
-          fill(color("rgb(255, 160, 253)")); // immune color
+          fill(color(immune_color)); // immune color
         } else {
           if (persons[x][y].infected) {
-            fill(color("rgb(97, 152, 142)")); // infected color
+            fill(color(infected_color)); // infected color
           } else {
-            fill(color("rgb(200, 200, 200)")); // healthy color
+            fill(color(healthy_color)); // healthy color
           }
         }
         circle(
