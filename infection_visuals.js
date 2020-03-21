@@ -34,5 +34,14 @@ function openSetting(tab_to_open) {
   for (var i = 0; i < setting_groups.length; i++) {
     setting_groups[i].style.display = "none";
   }
+
+  tablinks = document.getElementsByClassName("tab_button");
+  
+  for (i = 0; i < x.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" tab-selected", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " tab-selected";
+  
   document.getElementById(tab_to_open).style.display = "block";
 }
