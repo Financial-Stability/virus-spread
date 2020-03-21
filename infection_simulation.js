@@ -39,8 +39,8 @@ var sim_spd = 10;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
-var immune_color = "rgb(255, 160, 253)";
-var infected_color = "rgb(97, 153, 108)";
+var immune_color = "rgb(234, 173, 233)";
+var infected_color = "rgb(112, 175, 124)";
 var healthy_color = "rgb(200, 200, 200)";
 
 /**
