@@ -10,11 +10,12 @@ var infection_chance = 0.1;
 var death_chance = 0.1;
 var immune_develop_num = 10;
 var persons = [];
-var side_size = Math.sqrt(population_size);
+var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
 var immune_infect_others = false;
 var immune_recover = true;
 var time_to_recover = 50;
+var sim_spd = 10;
 
 /**
  * Initialize Inputs
@@ -28,6 +29,8 @@ document.getElementById("imm_input").value = immune_develop_num;
 document.getElementById("imm_infect").checked = immune_infect_others;
 document.getElementById("imm_recover").checked = immune_recover;
 document.getElementById("imm_recover_time").value = time_to_recover;
+document.getElementById("sim_spd_input").value = sim_spd;
+document.getElementById("pop_size_input").value = population_size;
 
 // setup buttons
 var startButton = document.getElementById("start_btn");
@@ -57,7 +60,9 @@ var showhidegraphButton = document.getElementById("showhide_graph");
 showhidegraphButton.onclick = function() {
   if (document.getElementById("chart-container").style.display == "none") {
     document.getElementById("chart-container").style.display = "block";
-  } else if (document.getElementById("chart-container").style.display == "block") {
+  } else if (
+    document.getElementById("chart-container").style.display == "block"
+  ) {
     document.getElementById("chart-container").style.display = "none";
   }
 };
@@ -74,6 +79,9 @@ function applySettings() {
   immune_infect_others = document.getElementById("imm_infect").checked;
   immune_recover = document.getElementById("imm_recover").checked;
   time_to_recover = document.getElementById("imm_recover_time").value;
+  sim_spd = document.getElementById("sim_spd_input").value;
+  population_size = document.getElementById("pop_size_input").value;
+  side_size = Math.ceil(Math.sqrt(population_size));
 
   time = 0;
   arrx.length = 0;
@@ -194,19 +202,18 @@ class Person {
  * Populates the p5 canvas with a new population based on settings
  */
 function populate() {
-  // will be square
-  var individual_size = height / side_size / 1.5;
-
   // populate persons array
   var temp_persons = [];
 
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
-      if (Math.random() < start_infected_chance) {
-        temp_row.push(new Person(true));
-      } else {
-        temp_row.push(new Person(false));
+      if (x * side_size + y < population_size) {
+        if (Math.random() < start_infected_chance) {
+          temp_row.push(new Person(true));
+        } else {
+          temp_row.push(new Person(false));
+        }
       }
     }
     temp_persons.push(temp_row);
@@ -232,7 +239,7 @@ var do_animation = false;
  */
 function start() {
   do_animation = true;
-  recursive_infect();
+  recursive_timestep();
 }
 
 /**
@@ -245,10 +252,10 @@ function stop() {
 /**
  * Recursive helper for infection animation and calculations
  */
-function recursive_infect() {
+function recursive_timestep() {
   doTimestep();
   if (do_animation) {
-    setTimeout(recursive_infect, 10);
+    setTimeout(recursive_timestep, sim_spd);
   }
 }
 
@@ -260,24 +267,26 @@ function doTimestep() {
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      // if infected
-      if (
-        persons[x][y].infected &&
-        !persons[x][y].dead &&
-        (!persons[x][y].immune || immune_infect_others)
-      ) {
-        // infect others
-        temp_persons = infectOthers(x - 1, y, temp_persons); //Left
-        temp_persons = infectOthers(x + 1, y, temp_persons); //Right
-        temp_persons = infectOthers(x, y - 1, temp_persons); //Up
-        temp_persons = infectOthers(x, y + 1, temp_persons); //Down
+      if (x * side_size + y < population_size) {
+        // if infected
+        if (
+          persons[x][y].infected &&
+          !persons[x][y].dead &&
+          (!persons[x][y].immune || immune_infect_others)
+        ) {
+          // infect others
+          temp_persons = infectOthers(x - 1, y, temp_persons); //Left
+          temp_persons = infectOthers(x + 1, y, temp_persons); //Right
+          temp_persons = infectOthers(x, y - 1, temp_persons); //Up
+          temp_persons = infectOthers(x, y + 1, temp_persons); //Down
 
-        // effects of infection on person (death, immunity)
-        temp_persons = applyInfection(x, y, temp_persons);
-      }
-      // if immune
-      if (immune_recover && persons[x][y].immune) {
-        temp_persons = applyRecovery(x, y, temp_persons);
+          // effects of infection on person (death, immunity)
+          temp_persons = applyInfection(x, y, temp_persons);
+        }
+        // if immune
+        if (immune_recover && persons[x][y].immune) {
+          temp_persons = applyRecovery(x, y, temp_persons);
+        }
       }
     }
   }
@@ -374,26 +383,28 @@ function applyRecovery(x, y, temp_persons) {
  * Draw the current population to the p5 graph
  */
 function drawPeople() {
-  var side_size = Math.sqrt(population_size);
+  clear();
   var individual_size = height / side_size / 1.5;
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].dead) {
-        fill(color("rgb(0, 0, 0)"));
-      } else if (persons[x][y].immune) {
-        fill(color("rgb(255, 105, 180)"));
-      } else {
-        if (persons[x][y].infected) {
-          fill(color("rgb(0, 255, 0)"));
+      if (x * side_size + y < population_size) {
+        if (persons[x][y].dead) {
+          fill(color("rgb(0, 0, 0)"));
+        } else if (persons[x][y].immune) {
+          fill(color("rgb(255, 105, 180)"));
         } else {
-          fill(color("rgb(255, 255, 255)"));
+          if (persons[x][y].infected) {
+            fill(color("rgb(0, 255, 0)"));
+          } else {
+            fill(color("rgb(220, 220, 220)"));
+          }
         }
+        circle(
+          x * (height / side_size) + height / side_size / 2,
+          y * (height / side_size) + height / side_size / 2,
+          individual_size
+        );
       }
-      circle(
-        x * (height / side_size) + height / side_size / 2,
-        y * (height / side_size) + height / side_size / 2,
-        individual_size
-      );
     }
   }
   redraw();
@@ -417,14 +428,16 @@ function getTotals() {
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].dead) {
-        dead++;
-      } else if (persons[x][y].immune) {
-        immune++;
-      } else if (persons[x][y].infected) {
-        infected++;
-      } else {
-        healthy++;
+      if (x * side_size + y < population_size) {
+        if (persons[x][y].dead) {
+          dead++;
+        } else if (persons[x][y].immune) {
+          immune++;
+        } else if (persons[x][y].infected) {
+          infected++;
+        } else {
+          healthy++;
+        }
       }
     }
   }

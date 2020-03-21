@@ -21,6 +21,22 @@
 
     <h3>Settings:</h3>
     <ul>
+      <label for="pop_size_input">population size (#)</label>
+      <input
+        type="number"
+        id="pop_size_input"
+        name="population size"
+        min="1"
+        max="100000"
+      /><br />
+      <label for="sim_spd_input">simulation speed (#ms)</label>
+      <input
+        type="number"
+        id="sim_spd_input"
+        name="simulation speed"
+        min="1"
+        max="1000"
+      /><br />
       <label for="in_inf_input">initial infection chance (%)</label>
       <input
         type="number"
@@ -54,10 +70,10 @@
         max="1000"
       /><br />
       <input type="checkbox" id="imm_infect" name="immune infect" />
-      <label for="imm_infect">Immune people infect others</label
+      <label for="imm_infect">immune people infect others</label
       ><br />
       <input type="checkbox" id="imm_recover" name="immune recover" />
-      <label for="imm_recover">Immune people recover</label>
+      <label for="imm_recover">immune people recover</label>
       <div id="recovery_time_settings">
         <ul>
           <label for="imm_recover_time">recovery time (#)</label>
