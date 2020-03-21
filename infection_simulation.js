@@ -154,10 +154,6 @@ var infChart = new Chart(inf, {
  * Sets up graph for the first time by pushing initial values
  */
 function setupGraphs() {
-  console.log(getTotals().infected);
-  console.log(getTotals().dead);
-  console.log(getTotals().immune);
-  console.log(getTotals().healthy);
 
   arrys[0].push(getTotals().infected);
   arrys[1].push(getTotals().dead);
@@ -391,12 +387,12 @@ function drawPeople() {
     for (var y = 0; y < persons[0].length; y++) {
       if (x * side_size + y < population_size) {
         if (persons[x][y].dead) {
-          fill(color("rgb(35, 51, 41)")); // dead color
+          fill(color("rgb(49, 62, 80)")); // dead color
         } else if (persons[x][y].immune) {
           fill(color("rgb(255, 160, 253)")); // immune color
         } else {
           if (persons[x][y].infected) {
-            fill(color("rgb(194, 208, 118)")); // infected color
+            fill(color("rgb(97, 152, 142)")); // infected color
           } else {
             fill(color("rgb(200, 200, 200)")); // healthy color
           }

@@ -15,15 +15,16 @@
   display : inline-block;
   width : fit-content;
   border: none;
-  background-color: #4CAF50;
+  background-color: grey;
   /* padding: 14px 28px; */
   /* font-size: 16px; */
   cursor: pointer;
   text-align: center;
+  outline: none;
 }
 
 .tab-selected {
-    background-color: red;
+    background-color: lightblue;
 }
 
 .tab_button:hover {
