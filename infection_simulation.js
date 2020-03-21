@@ -231,24 +231,29 @@ function populate() {
 
   // fill with spaces
   side_size = Math.ceil(side_size / (1 - percent_empty)); // make bigger
-  var placed = 0;
 
+  // fill with null
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
-      // if need more people, maybe place
-      if (placed < population_size && Math.random() < percent_empty) { // For every person
-        if (Math.random() < start_infected_chance) {
-          temp_row.push(new Person(true));
-        } else {
-          temp_row.push(new Person(false));
-        }
-        placed++;
-      } else {
-        temp_row.push(null);
-      }
+      temp_row.push(null);
     }
     temp_persons.push(temp_row);
+  }
+
+  var placed = 0;
+  while (placed < population_size) {
+    var x = Math.random(0, side_size);
+    var y = Math.random(0, side_size);
+    if (temp_persons[x][y] == null) {
+      // make person
+      if (Math.random() < start_infected_chance) {
+        temp_row.push(new Person(true));
+      } else {
+        temp_row.push(new Person(false));
+      }
+      placed++;
+    }
   }
 
   persons = JSON.parse(JSON.stringify(temp_persons));
