@@ -1,6 +1,8 @@
 /*jshint esversion: 6 */
 
-// Initialize Variables
+/**
+ * Initialize Variables
+ */
 
 var population_size = 10000;
 var start_infected_chance = 0.001;
@@ -14,8 +16,11 @@ var immune_infect_others = false;
 var immune_recover = true;
 var time_to_recover = 50;
 
-// Initialize Inputs
+/**
+ * Initialize Inputs
+ */
 
+// set html values to default values specified above
 document.getElementById("inf_input").value = infection_chance * 100;
 document.getElementById("in_inf_input").value = start_infected_chance * 100;
 document.getElementById("death_input").value = death_chance * 100;
@@ -24,7 +29,7 @@ document.getElementById("imm_infect").checked = immune_infect_others;
 document.getElementById("imm_recover").checked = immune_recover;
 document.getElementById("imm_recover_time").value = time_to_recover;
 
-
+// setup buttons
 var startButton = document.getElementById("start_btn");
 startButton.onclick = start;
 
@@ -35,11 +40,14 @@ var settingsButton = document.getElementById("set_btn");
 settingsButton.onclick = applySettings;
 
 var infectButton = document.getElementById("inf_btn");
-infectButton.onclick = infect;
+infectButton.onclick = doTimestep;
 
 var immune_recover = document.getElementById("imm_recover");
 immune_recover.onclick = showHideDependentSettings;
 
+/**
+ * Applies settings from html inputs into backend
+ */
 function applySettings() {
   stop();
   infection_chance = document.getElementById("inf_input").value / 100;
@@ -62,6 +70,9 @@ function applySettings() {
   infChart.update();
 }
 
+/**
+ * function to help show/hide input sections of settings based on other settings
+ */
 function showHideDependentSettings() {
   if (document.getElementById("imm_recover").checked) {
     document.getElementById("recovery_time_settings").style.display = "block";
@@ -70,7 +81,9 @@ function showHideDependentSettings() {
   }
 }
 
-// setup chart
+/**
+ * Setup Chart
+ */
 var inf = document.getElementById("infectedChart").getContext("2d");
 var time = 0; // current x value
 var arrx = []; // x data array
@@ -123,6 +136,9 @@ var infChart = new Chart(inf, {
   }
 });
 
+/**
+ * Sets up graph for the first time by pushing initial values
+ */
 function setupGraphs() {
   arrx.push(time);
 
@@ -134,7 +150,13 @@ function setupGraphs() {
   infChart.update();
 }
 
-// setup p5
+/**
+ * Setup p5 stuff
+ */
+
+/**
+ * Setup function that runs once to setup p5 stuff
+ */
 function setup() {
   let canvas = createCanvas(600, 600);
   canvas.parent("canvascontainer");
@@ -144,8 +166,14 @@ function setup() {
   setupGraphs();
 }
 
+/**
+ * Draw function disabled with noLoop() in setup().
+ */
 function draw() {}
 
+/**
+ * Class to represent a person
+ */
 class Person {
   constructor(infected) {
     this.infected = infected; // If healthy, false
@@ -155,9 +183,11 @@ class Person {
   }
 }
 
+/**
+ * Populates the p5 canvas with a new population based on settings
+ */
 function populate() {
   // will be square
-
   var individual_size = height / side_size / 1.5;
 
   // populate persons array
@@ -178,99 +208,121 @@ function populate() {
   drawPeople();
 }
 
+/**
+ *
+ */
 function getPosition() {
   collumnNum = population_size % side_size;
   rowNum = Math.floor(population_size / side_size);
   return collumnNum, rowNum;
 }
 
-var doinfect = false;
+// sentinel variable to control animations
+var do_animation = false;
 
+/**
+ * Starts infection animation
+ */
 function start() {
-  doinfect = true;
+  do_animation = true;
   recursive_infect();
 }
 
+/**
+ * Stops infection animation and calculations
+ */
 function stop() {
-  doinfect = false;
+  do_animation = false;
 }
 
+/**
+ * Recursive helper for infection animation and calculations
+ */
 function recursive_infect() {
-  infect();
-  if (doinfect) {
+  doTimestep();
+  if (do_animation) {
     setTimeout(recursive_infect, 10);
   }
 }
 
-function infect() {
+/**
+ * Calculates one time step (infections, deaths, immunities, etc.)
+ */
+function doTimestep() {
   var temp_persons = JSON.parse(JSON.stringify(persons)); // Copy of persons
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
+      // if infected
       if (
-        // if (just) infected
         persons[x][y].infected &&
         !persons[x][y].dead &&
         (!persons[x][y].immune || immune_infect_others)
       ) {
-        temp_persons = applyInfection(x - 1, y, temp_persons); //Left
-        temp_persons = applyInfection(x + 1, y, temp_persons); //Right
-        temp_persons = applyInfection(x, y - 1, temp_persons); //Up
-        temp_persons = applyInfection(x, y + 1, temp_persons); //Down
+        // infect others
+        temp_persons = infectOthers(x - 1, y, temp_persons); //Left
+        temp_persons = infectOthers(x + 1, y, temp_persons); //Right
+        temp_persons = infectOthers(x, y - 1, temp_persons); //Up
+        temp_persons = infectOthers(x, y + 1, temp_persons); //Down
 
-        // temp_persons = applyDeath(x - 1, y, temp_persons);
-        // temp_persons = applyDeath(x + 1, y, temp_persons);
-        // temp_persons = applyDeath(x, y - 1, temp_persons);
-        // temp_persons = applyDeath(x, y + 1, temp_persons);
-        temp_persons = applyDeath(x, y, temp_persons);
+        // effects of infection on person (death, immunity)
+        temp_persons = applyInfection(x, y, temp_persons);
       }
+      // if immune
       if (immune_recover && persons[x][y].immune) {
         temp_persons = applyRecovery(x, y, temp_persons);
       }
     }
   }
-
-  // console.log(num_infected);
-
   persons = temp_persons;
+
+  // apply to graphs
   time++;
-
   arrx.push(time);
-
   arrys[0].push(getTotals().infected);
   arrys[1].push(getTotals().dead);
   arrys[2].push(getTotals().immune);
   arrys[3].push(getTotals().healthy);
-
   infChart.update();
+  // apply to p5
   drawPeople();
-  redraw();
 }
 
-function applyDeath(x, y, temp_persons) {
-  // Should be called after if person is infected/immune/dead check is done
-  // immune_chance = 0.05; The rest of the thing is immune chance
-
+/**
+ * Applies the effects of the infection onto one person. The effects being death, or development of immunity.
+ * @param {*} x
+ * @param {*} y
+ * @param {*} temp_persons
+ */
+function applyInfection(x, y, temp_persons) {
+  // Should be called only on infected person
   try {
     random_number = Math.random(0, 1);
+    // if not dead or immune
     if (!temp_persons[x][y].dead && !temp_persons[x][y].immune) {
       if (temp_persons[x][y].survivedTime >= immune_develop_num) {
+        // lived long enough with infection to develop immunity
         temp_persons[x][y].immune = true;
         temp_persons[x][y].survivedTime = 0;
       } else if (random_number < death_chance) {
+        // dies
         temp_persons[x][y].dead = true;
       } else {
+        // survives a little longer
         temp_persons[x][y].survivedTime++;
       }
     }
-  } catch (error) {
-    //do nothing
-  }
+  } catch (error) {}
   return temp_persons;
 }
 
-function applyInfection(x, y, temp_persons) {
-  // Returns an updated 2d array after infecting one person
+/**
+ * Returns an updated 2d array after infecting one person
+ * @param {*} x
+ * @param {*} y
+ * @param {*} temp_persons
+ */
+function infectOthers(x, y, temp_persons) {
   try {
     if (
       Math.random() < infection_chance &&
@@ -280,30 +332,37 @@ function applyInfection(x, y, temp_persons) {
       temp_persons[x][y].infected = true;
       num_infected++;
     }
-  } catch (error) {
-    //do nothing
-  }
+  } catch (error) {}
   return temp_persons;
 }
 
+// the reason for having this is because you can catch the disease and revover and catch it again
+// - avery
+/**
+ * Tracks person's recovery after becoming immune to becoming healthy again. (A normal person who can be infected again)
+ * Should be called after if person is infected/immune/dead check is done
+ * @param {*} x
+ * @param {*} y
+ * @param {*} temp_persons
+ */
 function applyRecovery(x, y, temp_persons) {
-  // Should be called after if person is infected/immune/dead check is done
-  // immune_chance = 0.05; The rest of the thing is immune chance
-
   try {
     if (temp_persons[x][y].survivedTime >= time_to_recover) {
+      // enough time passed to recover
       temp_persons[x][y].infected = false;
       temp_persons[x][y].immune = false;
       temp_persons[x][y].survivedTime = 0;
     } else {
+      // need more time
       temp_persons[x][y].survivedTime++;
     }
-  } catch (error) {
-    //do nothing
-  }
+  } catch (error) {}
   return temp_persons;
 }
 
+/**
+ * Draw the current population to the p5 graph
+ */
 function drawPeople() {
   var side_size = Math.sqrt(population_size);
   var individual_size = height / side_size / 1.5;
@@ -327,10 +386,15 @@ function drawPeople() {
       );
     }
   }
+  redraw();
 }
 
-// graph functions
-
+/**
+ * Gets the number of each demographic for plotting on the graph
+ *
+ * Returns an object with labels infected, dead, immune, healthy with values
+ * corrisponding to each demographic's population size
+ */
 function getTotals() {
   infected = 0;
   dead = 0;
