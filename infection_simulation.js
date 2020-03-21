@@ -320,13 +320,13 @@ function doTimestep() {
         if (!temp_persons[x][y].dead) {
           // move randomly
           var randomnum = Math.random();
-          if (randomnum < 0.1) {
+          if (randomnum < 0.01) {
             temp_persons = movePerson(x, y, temp_persons, "right");
-          } else if (randomnum < 0.2) {
+          } else if (randomnum < 0.02) {
             temp_persons = movePerson(x, y, temp_persons, "left");
-          } else if (randomnum < 0.3) {
+          } else if (randomnum < 0.03) {
             temp_persons = movePerson(x, y, temp_persons, "up");
-          } else if (randomnum < 0.4) {
+          } else if (randomnum < 0.04) {
             temp_persons = movePerson(x, y, temp_persons, "down");
           }
         }
