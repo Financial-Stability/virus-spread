@@ -11,14 +11,13 @@
   display: inline-block;
 }
 
-.settings_nav .tab_button{
+.tab_button{
   display : inline-block;
   width : 60px;
-  height : 60px;
 
 }
 
-.settings_nav .tab_button:hover {
+/* .tab_button:hover {
   background-color: blue;
   color:white;
-}
+} */
