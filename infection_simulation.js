@@ -43,7 +43,22 @@ var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
 
 var immune_recover = document.getElementById("imm_recover");
-immune_recover.onclick = showHideDependentSettings;
+immune_recover.onclick = function() {
+  if (document.getElementById("imm_recover").checked) {
+    document.getElementById("recovery_time_settings").style.display = "block";
+  } else {
+    document.getElementById("recovery_time_settings").style.display = "none";
+  }
+};
+
+var showhidegraphButton = document.getElementById("showhide_graph");
+showhidegraphButton.onclick = function() {
+  if (document.getElementById("chart-container").style.display == "block") {
+    document.getElementById("chart-container").style.display = "none";
+  } else {
+    document.getElementById("chart-container").style.display = "block";
+  }
+};
 
 /**
  * Applies settings from html inputs into backend
@@ -68,17 +83,6 @@ function applySettings() {
 
   populate();
   infChart.update();
-}
-
-/**
- * function to help show/hide input sections of settings based on other settings
- */
-function showHideDependentSettings() {
-  if (document.getElementById("imm_recover").checked) {
-    document.getElementById("recovery_time_settings").style.display = "block";
-  } else {
-    document.getElementById("recovery_time_settings").style.display = "none";
-  }
 }
 
 /**
@@ -335,6 +339,9 @@ function infectOthers(x, y, temp_persons) {
   } catch (error) {}
   return temp_persons;
 }
+// TODO: Grouping (boundaries are same thing?)
+// TODO: Travel
+// TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
 
 // the reason for having this is because you can catch the disease and revover and catch it again
 // - avery
