@@ -22,6 +22,7 @@
  * Initialize Variables
  */
 
+// simulation variables
 var population_size = 70 * 70; // have default value be square number to fill nicely
 var start_infected_chance = 0.005;
 var infection_chance = 0.15;
@@ -36,12 +37,11 @@ var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
 
-// Colors
+// colors
 var dead_color = "rgb(49, 62, 80)";
 var immune_color = "rgb(255, 160, 253)";
-var infected_color = "rgb(97, 152, 142)";
+var infected_color = "rgb(97, 153, 108)";
 var healthy_color = "rgb(200, 200, 200)";
-
 
 /**
  * Initialize Inputs
@@ -71,7 +71,6 @@ settingsButton.onclick = applySettings;
 
 var infectButton = document.getElementById("inf_btn");
 infectButton.onclick = doTimestep;
-
 
 /**
  * Applies settings from html inputs into backend
@@ -162,7 +161,6 @@ var infChart = new Chart(inf, {
  * Sets up graph for the first time by pushing initial values
  */
 function setupGraphs() {
-
   arrys[0].push(getTotals().infected);
   arrys[1].push(getTotals().dead);
   arrys[2].push(getTotals().immune);
