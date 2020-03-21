@@ -143,25 +143,25 @@ var infChart = new Chart(inf, {
         label: "Infected Population",
         data: arrys[0],
         borderWidth: 1,
-        backgroundColor: "rgba(0, 255, 0, 0.5)"
+        backgroundColor: "rgba(0, 255, 0, 1)"
       },
       {
         // immune population
         label: "Immune Population",
         data: arrys[2],
-        backgroundColor: "rgba(255, 105, 180, 0.5)"
+        backgroundColor: "rgba(255, 105, 180, 1)"
       },
       {
         // dead population
         label: "Dead Population",
         data: arrys[1],
-        backgroundColor: "rgba(0, 0, 0, 0.5)"
+        backgroundColor: "rgba(0, 0, 0, 1)"
       },
       {
         // healthy population
         label: "Healthy Population",
         data: arrys[3],
-        backgroundColor: "rgba(50, 50, 50, 0.5)"
+        backgroundColor: "rgba(50, 50, 50, 1)"
       }
     ]
   },
@@ -173,7 +173,8 @@ var infChart = new Chart(inf, {
           ticks: {
             beginAtZero: true
           },
-          stacked: true
+          stacked: true,
+          display: false
         }
       ]
     }
