@@ -248,9 +248,9 @@ function populate() {
     if (temp_persons[x][y] == null) {
       // make person
       if (Math.random() < start_infected_chance) {
-        temp_row.push(new Person(true));
+        temp_persons[x][y] = new Person(true);
       } else {
-        temp_row.push(new Person(false));
+        temp_persons[x][y] = new Person(false);
       }
       placed++;
     }
