@@ -29,7 +29,7 @@ showhidegraphButton.onclick = function() {
   }
 };
 
-function openSetting(tab_to_open) {
+function openSetting(evt, tab_to_open) {
   var setting_groups = document.getElementsByClassName("settings_group");
   for (var i = 0; i < setting_groups.length; i++) {
     setting_groups[i].style.display = "none";
@@ -40,8 +40,6 @@ function openSetting(tab_to_open) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" tab-selected", "");
   }
-  document.getElementById(cityName).style.display = "block";
   evt.currentTarget.className += " tab-selected";
-  
   document.getElementById(tab_to_open).style.display = "block";
 }
