@@ -4,11 +4,11 @@
  * Initialize Variables
  */
 
-var population_size = 10000;
-var start_infected_chance = 0.001;
-var infection_chance = 0.1;
+var population_size = 70 * 70;
+var start_infected_chance = 0.005;
+var infection_chance = 0.15;
 var death_chance = 0.1;
-var immune_develop_num = 10;
+var immune_develop_num = 5;
 var persons = [];
 var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
