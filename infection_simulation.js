@@ -23,7 +23,7 @@
  */
 
 // simulation variables
-var population_size = 70 * 70; // have default value be square number to fill nicely
+var population_size = 90 * 90; // have default value be square number to fill nicely
 var start_infected_chance = 0.005;
 var infection_chance = 0.15;
 var death_chance = 0.1;
@@ -211,6 +211,7 @@ function populate() {
   // populate persons array
   var temp_persons = [];
 
+  // fill shoulder to shoulder
   for (var x = 0; x < side_size; x++) {
     var temp_row = [];
     for (var y = 0; y < side_size; y++) {
@@ -220,10 +221,15 @@ function populate() {
         } else {
           temp_row.push(new Person(false));
         }
+      } else {
+        temp_row.push(null);
       }
     }
     temp_persons.push(temp_row);
   }
+
+  // fill with spaces
+
   persons = JSON.parse(JSON.stringify(temp_persons));
   drawPeople();
 }
@@ -273,7 +279,7 @@ function doTimestep() {
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (x * side_size + y < population_size) {
+      if (persons[x][y] != null) {
         // if infected
         if (
           persons[x][y].infected &&
@@ -293,6 +299,8 @@ function doTimestep() {
         if (immune_recover && persons[x][y].immune) {
           temp_persons = applyRecovery(x, y, temp_persons);
         }
+      } else {
+        // do nothing
       }
     }
   }
@@ -391,7 +399,7 @@ function drawPeople() {
   var individual_size = height / side_size / 1.5;
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (x * side_size + y < population_size) {
+      if (persons[x][y] != null) {
         if (persons[x][y].dead) {
           fill(color(dead_color)); // dead color
         } else if (persons[x][y].immune) {
@@ -408,6 +416,8 @@ function drawPeople() {
           y * (height / side_size) + height / side_size / 2,
           individual_size
         );
+      } else {
+        // draw nothing
       }
     }
   }
@@ -432,7 +442,7 @@ function getTotals() {
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (x * side_size + y < population_size) {
+      if (persons[x][y] != null) {
         if (persons[x][y].dead) {
           dead++;
         } else if (persons[x][y].immune) {
