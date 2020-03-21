@@ -97,6 +97,8 @@ var start_infected_chance = 0.001;
 
 // var infection_chance = document.getElementById("inf_input").value;
 var infection_chance = 0.1;
+var death_chance = 0.1;
+var immune_develop_num = 10;
 
 var persons = [];
 var side_size = Math.sqrt(population_size);
@@ -119,6 +121,8 @@ infectButton.onclick = infect;
 function applySettings() {
   infection_chance = document.getElementById("inf_input").value / 100;
   start_infected_chance = document.getElementById("in_inf_input").value / 100;
+  death_chance = document.getElementById("death_input").value / 100;
+  immune_develop_num = document.getElementById("imm_input").value;
   time = 0;
   arrx.length = 0;
 
@@ -131,16 +135,17 @@ function applySettings() {
   infChart.update();
 }
 
+class Person {
+  constructor(infected) {
+    this.infected = infected; // If healthy, false
+    this.immune = false;
+    this.dead = false;
+    this.survivedTime = 0;
+  }
+}
+
 function populate() {
   // will be square
-
-  class Person {
-    constructor(infected) {
-      this.infected = infected; // If healthy, false
-      this.immune = false;
-      this.dead = false;
-    }
-  }
 
   var individual_size = height / side_size / 1.5;
 
@@ -188,23 +193,25 @@ function recursive_infect() {
 
 function infect() {
   var temp_persons = JSON.parse(JSON.stringify(persons)); // Copy of persons
+  var immune_infect_others = false;
 
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (
         persons[x][y].infected &&
         !persons[x][y].dead &&
-        !persons[x][y].immune
+        (!persons[x][y].immune || immune_infect_others)
       ) {
         temp_persons = applyInfection(x - 1, y, temp_persons); //Left
         temp_persons = applyInfection(x + 1, y, temp_persons); //Right
         temp_persons = applyInfection(x, y - 1, temp_persons); //Up
         temp_persons = applyInfection(x, y + 1, temp_persons); //Down
 
-        temp_persons = applyDeath(x - 1, y, temp_persons);
-        temp_persons = applyDeath(x + 1, y, temp_persons);
-        temp_persons = applyDeath(x, y - 1, temp_persons);
-        temp_persons = applyDeath(x, y + 1, temp_persons);
+        // temp_persons = applyDeath(x - 1, y, temp_persons);
+        // temp_persons = applyDeath(x + 1, y, temp_persons);
+        // temp_persons = applyDeath(x, y - 1, temp_persons);
+        // temp_persons = applyDeath(x, y + 1, temp_persons);
+        temp_persons = applyDeath(x, y, temp_persons);
       }
     }
   }
@@ -228,24 +235,21 @@ function infect() {
 
 function applyDeath(x, y, temp_persons) {
   // Should be called after if person is infected/immune/dead check is done
-
-  time_period = 0.98;
-  death_chance = time_period + 0.01;
   // immune_chance = 0.05; The rest of the thing is immune chance
 
   try {
     random_number = Math.random(0, 1);
-    if (!temp_persons[x][y].dead) {
-      if (random_number > death_chance) {
+    if (!temp_persons[x][y].dead && !temp_persons[x][y].immune) {
+      if (temp_persons[x][y].survivedTime >= immune_develop_num) {
         temp_persons[x][y].immune = true;
         temp_persons[x][y].infected = false;
-      } else if (random_number > time_period) {
+      } else if (random_number < death_chance) {
         temp_persons[x][y].dead = true;
       } else {
-        //do nothing
+        temp_persons[x][y].survivedTime++;
       }
     }
-  } catch {
+  } catch (error) {
     //do nothing
   }
   return temp_persons;
@@ -253,7 +257,6 @@ function applyDeath(x, y, temp_persons) {
 
 function applyInfection(x, y, temp_persons) {
   // Returns an updated 2d array after infecting one person
-  // above
   try {
     if (
       Math.random() < infection_chance &&
@@ -274,15 +277,13 @@ function drawPeople() {
   var individual_size = height / side_size / 1.5;
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
-      if (persons[x][y].infected) {
-        if (persons[x][y].dead) {
-          fill(color("rgb(0, 0, 0)"));
-        } else {
-          fill(color("rgb(0, 255, 0)"));
-        }
+      if (persons[x][y].dead) {
+        fill(color("rgb(0, 0, 0)"));
+      } else if (persons[x][y].immune) {
+        fill(color("rgb(255, 105, 180)"));
       } else {
-        if (persons[x][y].immune) {
-          fill(color("rgb(255, 105, 180)"));
+        if (persons[x][y].infected) {
+          fill(color("rgb(0, 255, 0)"));
         } else {
           fill(color("rgb(255, 255, 255)"));
         }
