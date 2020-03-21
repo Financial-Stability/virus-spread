@@ -28,3 +28,11 @@ showhidegraphButton.onclick = function() {
     document.getElementById("chart-container").style.display = "none";
   }
 };
+
+function openSetting(tab_to_open) {
+  var setting_groups = document.getElementsByClassName("settings_group");
+  for (var i = 0; i < setting_groups.length; i++) {
+    setting_groups[i].style.display = "none";
+  }
+  document.getElementById(tab_to_open).style.display = "block";
+}
