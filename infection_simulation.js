@@ -243,8 +243,8 @@ function populate() {
 
   var placed = 0;
   while (placed < population_size) {
-    var x = Math.random(0, side_size);
-    var y = Math.random(0, side_size);
+    var x = Math.floor(Math.random() * side_size);
+    var y = Math.floor(Math.random() * side_size);
     if (temp_persons[x][y] == null) {
       // make person
       if (Math.random() < start_infected_chance) {
