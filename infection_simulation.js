@@ -37,7 +37,7 @@ var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
 var percent_empty = 0.5;
-var max_distance = 10;
+var max_distance = 100;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
@@ -180,6 +180,29 @@ function setupGraphs() {
   infChart.update();
 }
 
+function graphResize() {
+  // arrx.push(time);
+  // time++;
+
+  // if (show_graph) {
+  //   arrys[0].push(getTotals().infected);
+  //   arrys[1].push(getTotals().dead);
+  //   arrys[2].push(getTotals().immune);
+  //   arrys[3].push(getTotals().healthy);
+  //   infChart.update();
+  //   graphResize();
+
+  while (arrx.length > 100) {
+    arrx.shift();
+  }
+  for (i = 0; i < 4; i++) {
+    while (arr[i].length > 100) {
+      arrx.shift();
+    }
+  }
+
+}
+
 /**
  * Setup p5 stuff
  */
@@ -274,20 +297,6 @@ function populate() {
 
   persons = JSON.parse(JSON.stringify(temp_persons));
   drawPeople();
-}
-
-function graphResize() {
-  // arrx.push(time);
-  // time++;
-
-  // if (show_graph) {
-  //   arrys[0].push(getTotals().infected);
-  //   arrys[1].push(getTotals().dead);
-  //   arrys[2].push(getTotals().immune);
-  //   arrys[3].push(getTotals().healthy);
-  //   infChart.update();
-  //   graphResize();
-
 }
 
 // sentinel variable to control animations
