@@ -178,9 +178,9 @@ var infChart = new Chart(inf, {
           display: false
         }
       ],
-      xAxes: {
+      xAxes: [{
         display: false
-      }
+      }]
     },
     animation: {
       duration: 0 // general animation time
