@@ -350,8 +350,9 @@ function populate() {
 
   // add walls
   let wall_length = Math.floor(side_size * 0.1);
-  let walls_per_side = Math.floor(side_size * 0.1);
-  let dist_btw_walls = Math.floor(side_size / walls_per_side);
+  // let walls_per_side = Math.floor(side_size * 0.1);
+  let walls_per_side = 10;
+  let dist_btw_walls = Math.floor(side_size / walls_per_side-1);
 
   for (var i = 0; i < 4; i++) {
     //for each side
@@ -362,7 +363,7 @@ function populate() {
       startY = 0;
     }else if(i==1){
       //right
-      startX = side_size;
+      startX = side_size-1;
       startY = dist_btw_walls;
     }else if (i==2){
       //bottom
@@ -371,12 +372,11 @@ function populate() {
     }else if (i==3){
       //left
       startX = 0;
-      startY = dist_btw_walls;
+      startY = Math.floor(1.5*dist_btw_walls);
     }
 
-    for(var k=0; k<walls_per_side; k++){
+    for(var j=0; j<walls_per_side; j++){
       //for each wall
-      console.log(k);
       if(i==0){
         //if doing walls on top
         for(var k=0; k<wall_length; k++){
@@ -402,7 +402,6 @@ function populate() {
         }
         startY = startY + dist_btw_walls;
       }
-      
     }
   }
 
