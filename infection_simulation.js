@@ -196,7 +196,7 @@ function graphResize() {
     arrx.shift();
   }
   for (i = 0; i < 4; i++) {
-    while (arr[i].length > 100) {
+    while (arrys[i].length > 100) {
       arrx.shift();
     }
   }
