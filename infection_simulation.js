@@ -276,6 +276,20 @@ function populate() {
   drawPeople();
 }
 
+function graphResize() {
+  // arrx.push(time);
+  // time++;
+
+  // if (show_graph) {
+  //   arrys[0].push(getTotals().infected);
+  //   arrys[1].push(getTotals().dead);
+  //   arrys[2].push(getTotals().immune);
+  //   arrys[3].push(getTotals().healthy);
+  //   infChart.update();
+  //   graphResize();
+
+}
+
 // sentinel variable to control animations
 var do_animation = false;
 
@@ -346,8 +360,8 @@ function doTimestep() {
           // } else if (randomnum < 0.04) {
           //   temp_persons = movePerson(x, y, temp_persons, "down");
           // }
-
-          if (persons[x][y].distance == max_distance) {
+          
+          if (persons[x][y].distance >= max_distance) {
             persons[x][y].distance = 0;
             persons[x][y].xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
             persons[x][y].yVel = (1-Math.abs(persons[x][y].xVel)) * (Math.round(Math.random()) * 2 - 1);
@@ -386,6 +400,7 @@ function doTimestep() {
     arrys[2].push(getTotals().immune);
     arrys[3].push(getTotals().healthy);
     infChart.update();
+    graphResize();
   }
 
   // apply to p5
