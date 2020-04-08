@@ -47,11 +47,11 @@ var healthy_color = "rgb(200, 200, 200)";
 
 //UI
 var show_graph = true;
-// if (document.getElementById("chart-container").style.display == "none") {
-//   show_graph = false;
-// } else {
-//   show_graph = true;
-// }
+if (document.getElementById("chart-container").style.display == "none") {
+  show_graph = false;
+} else {
+  show_graph = true;
+}
 
 
 /**
@@ -348,7 +348,6 @@ function doTimestep() {
           // }
 
           if (persons[x][y].distance == max_distance) {
-            if()
             persons[x][y].distance = 0;
             persons[x][y].xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
             persons[x][y].yVel = (1-Math.abs(persons[x][y].xVel)) * (Math.round(Math.random()) * 2 - 1);
