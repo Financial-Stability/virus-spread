@@ -311,11 +311,22 @@ function populate() {
   
   for(var i=0; i<4; i++){
     //for each side
-    for(var i=0; i<walls_per_side; i++){
+    for(var j=0; i<walls_per_side; i++){
       //for each wall
       
-      // startX = 
-      // startY = 
+      if(i==0){
+        startX = dist_btw_walls;
+        startY = 0;
+
+        for(l)
+
+      }else if(i==1){
+
+      }else if (i==2){
+
+      }else if (i==3){
+
+      }
       
     }
   }
