@@ -177,6 +177,7 @@ var infChart = new Chart(inf, {
     point: {
       // backgroundColor: 'rgba(0,0,0,0)'
       radius: 0,
+      borderWidth: 0
       // hitRadius: 5
     }
   }
@@ -298,7 +299,10 @@ function populate() {
   let wall_length = Math.floor(side_size * 0.1);
   let walls_per_side = Math.floor(side_size * 0.1);
   for(var i=0; i<4; i++){
+    //for each side
     for(var i=0; i<walls_per_side; i++){
+      //for each wall
+      
       
     }
   }
