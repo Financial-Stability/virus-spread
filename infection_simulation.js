@@ -250,7 +250,6 @@ function setup() {
   noLoop();
   applySettings();
   setupGraphs();
-  setupGraphs();
 }
 
 /**
@@ -319,28 +318,53 @@ function populate() {
   
   for(var i=0; i<4; i++){
     //for each side
-    for(var j=0; i<walls_per_side; i++){
+
+    if(i==0){
+      //top
+      startX = dist_btw_walls;
+      startY = 0;
+    }else if(i==1){
+      //right
+      startX = side_size;
+      startY = dist_btw_walls;
+    }else if (i==2){
+      //bottom
+      startX = dist_btw_walls;
+      startY = side_size;
+    }else if (i==3){
+      //left
+      startX = 0;
+      startY = dist_btw_walls;
+    }
+
+    for(var k=0; k<walls_per_side; k++){
       //for each wall
-      
-      // if(i==0){
-      //   startX = dist_btw_walls;
-      //   startY = 0;
-
-      //   for(var k=0; k<wall_length; k++){
-      //     persons[startX][startY+k] = 'wall';
-      //   }
-      // }else if(i==1){
-      //   startX = side_size;
-      //   startY = 0;
-
-      //   for(var k=0; k<wall_length; k++){
-      //     persons[startX-k][startY] = 'wall';
-      //   }
-      // }else if (i==2){
-
-      // }else if (i==3){
-
-      // }
+      console.log(k);
+      if(i==0){
+        //if doing walls on top
+        for(var k=0; k<wall_length; k++){
+          temp_persons[startX][startY+k] = 'wall';
+        }
+        startX = startX + dist_btw_walls;
+      }else if(i==1){
+        //if doing walls on right
+        for(var k=0; k<wall_length; k++){
+          temp_persons[startX-k][startY] = 'wall';
+        }
+        startY = startY + dist_btw_walls;
+      }else if (i==2){
+        //walls on bottom
+        for(var k=0; k<wall_length; k++){
+          temp_persons[startX][startY-k] = 'wall';
+        }
+        startX = startX + dist_btw_walls;
+      }else if (i==3){
+        //walls on left
+        for(var k=0; k<wall_length; k++){
+          temp_persons[startX+k][startY] = 'wall';
+        }
+        startY = startY + dist_btw_walls;
+      }
       
     }
   }
@@ -606,7 +630,9 @@ function drawPeople() {
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y] != null) {
-        if (persons[x][y].dead) {
+        if (persons[x][y] == 'wall'){
+          fill(color("rgb(0,0,0)"));
+        } else if (persons[x][y].dead) {
           fill(color(dead_color)); // dead color
         } else if (persons[x][y].immune) {
           fill(color(immune_color)); // immune color
@@ -623,7 +649,7 @@ function drawPeople() {
           individual_size
         );
       } else {
-        // draw nothing
+        //draw nothing
       }
     }
   }
