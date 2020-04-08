@@ -319,9 +319,9 @@ function populate() {
         startX = dist_btw_walls;
         startY = 0;
 
-        for(var k=0; k<wall_length; k++){
-          persons[startX+k][startY]
-        }
+        // for(var k=0; k<wall_length; k++){
+        //   persons[startX+k][startY]
+        // }
 
       }else if(i==1){
 
