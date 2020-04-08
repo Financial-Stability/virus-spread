@@ -154,6 +154,12 @@ var infChart = new Chart(inf, {
   },
   options: {
     maintainAspectRatio: false,
+    legend: {
+      labels: {
+          // This more specific font property overrides the global property
+          fontColor: 'white'
+      }
+  },
     elements: {
       point: {
         // backgroundColor: 'rgba(0,0,0,0)'
