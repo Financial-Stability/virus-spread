@@ -177,7 +177,7 @@ var infChart = new Chart(inf, {
     point: {
       // backgroundColor: 'rgba(0,0,0,0)'
       radius: 0,
-      hitRadius: 5
+      // hitRadius: 5
     }
   }
 });
