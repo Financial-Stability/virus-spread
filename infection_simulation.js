@@ -172,6 +172,11 @@ var infChart = new Chart(inf, {
       animationDuration: 0 // duration of animations when hovering an item
   },
   responsiveAnimationDuration: 0 // animation duration after a resize
+  },
+  elements: {
+    point: {
+      backgroundColor: 'rgba(0,0,0,0)'
+    }
   }
 });
 
@@ -286,6 +291,11 @@ function populate() {
     }
     temp_persons.push(temp_row);
   }
+
+  // add walls
+  let wall_length = Math.floor(side_size * 0.1);
+  let walls_per_side = Math.floor(side_size * 0.1);
+  for(var i=0; i<walls_per_side; i++){}
 
   var placed = 0;
   while (placed < population_size) {
