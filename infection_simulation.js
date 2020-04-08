@@ -177,7 +177,10 @@ var infChart = new Chart(inf, {
           stacked: true,
           display: false
         }
-      ]
+      ],
+      xAxes: {
+        display: false
+      }
     },
     animation: {
       duration: 0 // general animation time
@@ -311,6 +314,8 @@ function populate() {
     for(var i=0; i<walls_per_side; i++){
       //for each wall
       
+      startX = 
+      startY = 
       
     }
   }
