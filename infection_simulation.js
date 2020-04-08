@@ -315,25 +315,25 @@ function populate() {
     for(var j=0; i<walls_per_side; i++){
       //for each wall
       
-      if(i==0){
-        startX = dist_btw_walls;
-        startY = 0;
+      // if(i==0){
+      //   startX = dist_btw_walls;
+      //   startY = 0;
 
-        for(var k=0; k<wall_length; k++){
-          persons[startX+k][startY] = 'wall';
-        }
-      }else if(i==1){
-        startX = dist_btw_walls;
-        startY = 0;
+      //   for(var k=0; k<wall_length; k++){
+      //     persons[startX+k][startY] = 'wall';
+      //   }
+      // }else if(i==1){
+      //   startX = dist_btw_walls;
+      //   startY = 0;
 
-        for(var k=0; k<wall_length; k++){
-          persons[startX+k][startY] = 'wall';
-        }
-      }else if (i==2){
+      //   for(var k=0; k<wall_length; k++){
+      //     persons[startX+k][startY] = 'wall';
+      //   }
+      // }else if (i==2){
 
-      }else if (i==3){
+      // }else if (i==3){
 
-      }
+      // }
       
     }
   }
