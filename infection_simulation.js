@@ -318,7 +318,7 @@ function populate() {
         startX = dist_btw_walls;
         startY = 0;
 
-        for(l)
+        // for(k)
 
       }else if(i==1){
 
