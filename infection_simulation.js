@@ -26,23 +26,33 @@
 var population_size = 30 * 30; // have default value be square number to fill nicely
 var start_infected_chance = 0.05;
 var infection_chance = 0.15;
-var death_chance = 0.1;
-var immune_develop_num = 5;
+var death_chance = 0.01;
+var immune_develop_num = 10;
 var persons = [];
 var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
-var immune_infect_others = false;
+var immune_infect_others = true;
 var immune_recover = true;
 var develop_immunity = true;
 var time_to_recover = 50;
 var sim_spd = 10;
 var percent_empty = 0.5;
+var max_distance = 10;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
 var immune_color = "rgb(234, 173, 233)";
 var infected_color = "rgb(112, 175, 124)";
 var healthy_color = "rgb(200, 200, 200)";
+
+//UI
+var show_graph = false;
+// if (document.getElementById("chart-container").style.display == "none") {
+//   show_graph = false;
+// } else {
+//   show_graph = true;
+// }
+
 
 /**
  * Initialize Inputs
@@ -197,12 +207,18 @@ function draw() {}
  * Class to represent a person
  */
 class Person {
-  constructor(infected) {
+  constructor(infected, xVel, yVel) {
     this.infected = infected; // If healthy, false
     this.immune = false;
     this.dead = false;
     this.survivedTime = 0;
-  }
+
+    // random pos/neg velocities whos abs val adds to 1
+    this.xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
+    this.yVel = (1-Math.abs(this.xVel)) * (Math.round(Math.random()) * 2 - 1);
+    // this.activeness = 0;
+    this.distance = 0;
+    }
 }
 
 /**
@@ -292,6 +308,7 @@ function recursive_timestep() {
  * Calculates one time step (infections, deaths, immunities, etc.)
  */
 function doTimestep() {
+
   var temp_persons = JSON.parse(JSON.stringify(persons)); // Copy of persons
 
   for (var x = 0; x < persons.length; x++) {
@@ -319,15 +336,37 @@ function doTimestep() {
 
         if (!temp_persons[x][y].dead) {
           // move randomly
-          var randomnum = Math.random();
-          if (randomnum < 0.01) {
-            temp_persons = movePerson(x, y, temp_persons, "right");
-          } else if (randomnum < 0.02) {
-            temp_persons = movePerson(x, y, temp_persons, "left");
-          } else if (randomnum < 0.03) {
-            temp_persons = movePerson(x, y, temp_persons, "up");
-          } else if (randomnum < 0.04) {
-            temp_persons = movePerson(x, y, temp_persons, "down");
+          // var randomnum = Math.random();
+          // if (randomnum < 0.01) {
+          //   temp_persons = movePerson(x, y, temp_persons, "right");
+          // } else if (randomnum < 0.02) {
+          //   temp_persons = movePerson(x, y, temp_persons, "left");
+          // } else if (randomnum < 0.03) {
+          //   temp_persons = movePerson(x, y, temp_persons, "up");
+          // } else if (randomnum < 0.04) {
+          //   temp_persons = movePerson(x, y, temp_persons, "down");
+          // }
+
+          if (persons[x][y].distance == max_distance) {
+            persons[x][y].distance = 0;
+            persons[x][y].xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
+            persons[x][y].yVel = (1-Math.abs(persons[x][y].xVel)) * (Math.round(Math.random()) * 2 - 1);
+          }
+
+          // move according to velocity
+          var axis = pickPercent([Math.abs(persons[x][y].xVel*100), Math.abs(persons[x][y].yVel*100)], ['ud', 'lr'])
+          if (axis == 'ud') {
+            if (persons[x][y].yVel <= 0) {
+              temp_persons = movePerson(x, y, temp_persons, "down");
+            } else {
+              temp_persons = movePerson(x, y, temp_persons, "up");
+            }
+          }else if (axis == 'lr') {
+            if (persons[x][y].xVel <= 0) {
+              temp_persons = movePerson(x, y, temp_persons, "left");
+            } else {
+              temp_persons = movePerson(x, y, temp_persons, "right");
+            }
           }
         }
       } else {
@@ -340,23 +379,30 @@ function doTimestep() {
   // apply to graphs
   arrx.push(time);
   time++;
-  arrys[0].push(getTotals().infected);
-  arrys[1].push(getTotals().dead);
-  arrys[2].push(getTotals().immune);
-  arrys[3].push(getTotals().healthy);
-  infChart.update();
+
+  if (show_graph) {
+    arrys[0].push(getTotals().infected);
+    arrys[1].push(getTotals().dead);
+    arrys[2].push(getTotals().immune);
+    arrys[3].push(getTotals().healthy);
+    infChart.update();
+  }
+
   // apply to p5
   drawPeople();
 }
 
 /**
- *
+ * Moves person at (x,y) in given direction. 
+ * Does not move unless movement is within square and moving to empty space
+ * Returns new board 
  * @param {*} x
  * @param {*} y
  * @param {*} temp_persons
  * @param {*} direction direction to move. one of: "up" "down" "left" "right"
  */
 function movePerson(x, y, temp_persons, direction) {
+  temp_persons[x][y].distance++
   if (
     x + 1 < temp_persons.length &&
     temp_persons[x + 1][y] == null &&
@@ -386,7 +432,6 @@ function movePerson(x, y, temp_persons, direction) {
     temp_persons[x][y - 1] = temp_persons[x][y];
     temp_persons[x][y] = null;
   }
-
   return temp_persons;
 }
 
@@ -528,4 +573,27 @@ function getTotals() {
     }
   }
   return { infected: infected, dead: dead, immune: immune, healthy: healthy };
+}
+
+/**
+ * Selects an outcome based on input probabilities
+ * Returns null if probabilities don't add to 100 (< or >)
+ * @param {*} percents 
+ * @param {*} labels 
+ */
+function pickPercent(percents, labels) {
+  const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+
+  if (arrSum(percents) == 100){
+    var random_number = Math.random();
+    var threshhold = 0;
+    for (i=0; i<=percents.length; i++){
+      threshhold = threshhold + (percents[i]/100)
+      if (random_number < threshhold) {
+        return(labels[i]);
+      } 
+    }
+  } else {
+    return(null);
+  }
 }
