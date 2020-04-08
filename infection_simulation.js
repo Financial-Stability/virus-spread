@@ -314,8 +314,8 @@ function populate() {
     for(var i=0; i<walls_per_side; i++){
       //for each wall
       
-      startX = 
-      startY = 
+      // startX = 
+      // startY = 
       
     }
   }
