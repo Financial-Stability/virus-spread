@@ -202,6 +202,13 @@ function setupGraphs() {
   arrys[2].push(getTotals().immune);
   arrys[3].push(getTotals().healthy);
 
+  for (i = 0; i< 99; i++) {
+    arrys[0].push(0);
+    arrys[1].push(0);
+    arrys[2].push(0);
+    arrys[3].push(0);
+  }
+
   infChart.update();
 }
 
@@ -320,14 +327,14 @@ function populate() {
       //   startY = 0;
 
       //   for(var k=0; k<wall_length; k++){
-      //     persons[startX+k][startY] = 'wall';
+      //     persons[startX][startY+k] = 'wall';
       //   }
       // }else if(i==1){
-      //   startX = dist_btw_walls;
+      //   startX = side_size;
       //   startY = 0;
 
       //   for(var k=0; k<wall_length; k++){
-      //     persons[startX+k][startY] = 'wall';
+      //     persons[startX-k][startY] = 'wall';
       //   }
       // }else if (i==2){
 
