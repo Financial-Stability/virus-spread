@@ -159,7 +159,7 @@ var infChart = new Chart(inf, {
         // backgroundColor: 'rgba(0,0,0,0)'
         radius: 0,
         borderWidth: 0,
-        hitRadius: 3
+        hitRadius: 20
       }
     },
     scales: {
@@ -298,7 +298,7 @@ function populate() {
   // add walls
   let wall_length = Math.floor(side_size * 0.1);
   let walls_per_side = Math.floor(side_size * 0.1);
-
+  let dist_btw_walls = Math.floor()
   
   for(var i=0; i<4; i++){
     //for each side
