@@ -154,6 +154,7 @@ var infChart = new Chart(inf, {
   },
   options: {
     maintainAspectRatio: false,
+    responsive: true,
     legend: {
       labels: {
           // This more specific font property overrides the global property
@@ -318,7 +319,9 @@ function populate() {
         startX = dist_btw_walls;
         startY = 0;
 
-        // for(k)
+        for(var k=0; k<wall_length; k++){
+          persons[startX+k][startY]
+        }
 
       }else if(i==1){
 
