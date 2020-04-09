@@ -23,7 +23,7 @@
  */
 
 // simulation variables
-var population_size = 30 * 30; // have default value be square number to fill nicely
+var population_size = 2500; // have default value be square number to fill nicely
 var start_infected_chance = 0.05;
 var infection_chance = 0.15;
 var death_chance = 0.01;
@@ -35,9 +35,10 @@ var immune_infect_others = true;
 var immune_recover = true;
 var develop_immunity = true;
 var time_to_recover = 50;
-var sim_spd = 10;
+var sim_spd = 5;
 var percent_empty = 0.5;
 var max_distance = 100;
+var walls = false;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
@@ -348,7 +349,7 @@ function populate() {
     temp_persons.push(temp_row);
   }
 
-  // add walls
+  if(walls){// add walls
   let wall_length = Math.floor(side_size * 0.1);
   // let walls_per_side = Math.floor(side_size * 0.1);
   let walls_per_side = 10;
@@ -404,6 +405,7 @@ function populate() {
       }
     }
   }
+}
 
   var placed = 0;
   while (placed < population_size) {
