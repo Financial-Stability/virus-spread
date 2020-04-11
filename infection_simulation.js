@@ -22,21 +22,22 @@
 // simulation variables
 var population_size = 2500; // have default value be square number to fill nicely
 var start_infected_chance = 0.05;
-var infection_chance = 0.15;
-var death_chance = 0.01;
-var immune_develop_num = 10;
+var infection_chance = 0.07;
+var death_chance = 0.001;
+var immune_develop_num = 50;
 var persons = [];
 var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
-var immune_infect_others = true;
+var immune_infect_others = false;
 var immune_recover = true;
 var develop_immunity = true;
-var time_to_recover = 50;
+var time_to_recover = 40;
 var sim_spd = 5;
 var percent_empty = 0.5;
 var max_distance = 100;
 var walls = false;
-var movechance = 0.7;
+var movechance = 0.2;
+var death_wait = 100;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
@@ -504,7 +505,7 @@ function doTimestep() {
               (Math.round(Math.random()) * 2 - 1);
           }
 
-          if(Math.random() > movechance){// move according to velocity
+          if(Math.random() < movechance){// move according to velocity
             var axis = pickPercent(
               [
                 Math.abs(persons[x][y].xVel * 100),
@@ -529,7 +530,7 @@ function doTimestep() {
         }
         }else {
           // if they are dead
-          if (persons[x][y].deadtime > 7){
+          if (persons[x][y].deadtime > death_wait){
             temp_persons[x][y] = null;
           } else {
             temp_persons[x][y].deadtime ++;
