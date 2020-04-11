@@ -8,14 +8,11 @@
  * TODO: Travel
  * TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
  * TODO: find way to fix the fact that virus can only spread to adjacent stops exponential growth, maybe with a spread radius variable
+ * 
+ * TODO: Dead people fade away
  *
  * settings UI
- * TODO: have input for population arrows increment by square numbers using the step attribute
- * TODO: sliders will be much nicer
- * TODO: tabbed settings, like this https://www.w3schools.com/w3css/w3css_tabulators.asp
- *
- * TODO: general theme and css styling
- * TODO: style buttons
+ * TODO: Clean up
  */
 
 /**
@@ -39,6 +36,7 @@ var sim_spd = 5;
 var percent_empty = 0.5;
 var max_distance = 100;
 var walls = false;
+var movechance = 0.7;
 
 // colors
 var dead_color = "rgb(49, 62, 80)";
@@ -214,7 +212,6 @@ function setupGraphs() {
     arrys[1].push(null);
     arrys[2].push(null);
     arrys[3].push(null);
-    console.log(i);
   }
 
   arrys[0].push(getTotals().infected);
@@ -303,13 +300,15 @@ class Person {
     this.infected = infected; // If healthy, false
     this.immune = false;
     this.dead = false;
+
+    this.deadtime = 0;
     this.survivedTime = 0;
+    this.distance = 0;
 
     // random pos/neg velocities whos abs val adds to 1
     this.xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
     this.yVel = (1 - Math.abs(this.xVel)) * (Math.round(Math.random()) * 2 - 1);
-    // this.activeness = 0;
-    this.distance = 0;
+    
   }
 }
 
@@ -505,26 +504,35 @@ function doTimestep() {
               (Math.round(Math.random()) * 2 - 1);
           }
 
-          // move according to velocity
-          var axis = pickPercent(
-            [
-              Math.abs(persons[x][y].xVel * 100),
-              Math.abs(persons[x][y].yVel * 100),
-            ],
-            ["ud", "lr"]
-          );
-          if (axis == "ud") {
-            if (persons[x][y].yVel <= 0) {
-              temp_persons = movePerson(x, y, temp_persons, "down");
-            } else {
-              temp_persons = movePerson(x, y, temp_persons, "up");
+          if(Math.random() > movechance){// move according to velocity
+            var axis = pickPercent(
+              [
+                Math.abs(persons[x][y].xVel * 100),
+                Math.abs(persons[x][y].yVel * 100),
+              ],
+              ["ud", "lr"]
+            );
+
+            if (axis == "ud") {
+              if (persons[x][y].yVel <= 0) {
+                temp_persons = movePerson(x, y, temp_persons, "down");
+              } else {
+                temp_persons = movePerson(x, y, temp_persons, "up");
+              }
+            } else if (axis == "lr") {
+              if (persons[x][y].xVel <= 0) {
+                temp_persons = movePerson(x, y, temp_persons, "left");
+              } else {
+                temp_persons = movePerson(x, y, temp_persons, "right");
+              }
             }
-          } else if (axis == "lr") {
-            if (persons[x][y].xVel <= 0) {
-              temp_persons = movePerson(x, y, temp_persons, "left");
-            } else {
-              temp_persons = movePerson(x, y, temp_persons, "right");
-            }
+        }
+        }else {
+          // if they are dead
+          if (persons[x][y].deadtime > 7){
+            temp_persons[x][y] = null;
+          } else {
+            temp_persons[x][y].deadtime ++;
           }
         }
       } else {
