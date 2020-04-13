@@ -14,11 +14,18 @@
 
     <h3>Graph:</h3>
     <button id="showhide_graph">show/hide graph</button>
-    <div id="chart-container" style="display: block;">
+    <div id="chart-container" style="display: block;margin-bottom: 100px;">
+      <h2> Current Percentages of Population </h2>
       <p>Click category to hide:</p>
       <canvas id="infectedChart" width="50" height="50"></canvas>
     </div>
     <br />
+
+    <div id="chart-container" style="display: block; height: 300px; width: 300px; margin-bottom: 100px;">
+      <h2> Total Active Number </h2>
+      <p> Also includes total number of dead people </p>
+      <canvas id="barChart" width="50" height="50px"></canvas>
+    </div>
 
     <h3>Settings:</h3>
 

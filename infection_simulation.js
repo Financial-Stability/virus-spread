@@ -28,7 +28,7 @@ var immune_develop_num = 50;
 var persons = [];
 var side_size = Math.ceil(Math.sqrt(population_size));
 var num_infected = 0;
-var immune_infect_others = false;
+var immune_infect_others = true;
 var immune_recover = true;
 var develop_immunity = true;
 var time_to_recover = 40;
@@ -52,6 +52,8 @@ if (document.getElementById("chart-container").style.display == "none") {
 } else {
   show_graph = true;
 }
+
+var totalDead = 0;
 
 /**
  * Initialize Inputs
@@ -108,6 +110,11 @@ function applySettings() {
   arrys[3].length = 0;
 
   populate();
+
+  allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, totalDead];
+  barChart.data.datasets[0].data = allStatistics;
+
+  barChart.update();
   infChart.update();
 }
 
@@ -194,6 +201,55 @@ var infChart = new Chart(inf, {
   },
 });
 
+var ctx = document.getElementById("barChart").getContext("2d");
+var allStatistics = [2,4,6,8];
+
+var barChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    // labels:['uno', 'dos','tres','quatro'], //displays data funky
+    labels: ['infected','immune','healthy','dead'],
+    datasets: [
+      {
+        label: 'Population Totals',
+        data: allStatistics,
+        backgroundColor: [infected_color,immune_color,healthy_color,dead_color],
+      }
+    ]},
+  
+  options: {
+    responsiveAnimationDuration: 0, // animation duration after a resize
+    responsive: true,
+    maintainAspectRatio: false,
+    responsive: true,
+
+    scales: {
+      yAxes: [{
+        ticks: {
+            beginAtZero: true,
+            max: population_size
+        }
+      }]
+    },
+
+    legend: {
+      display: false,
+      labels: {
+        // This more specific font property overrides the global property
+        fontColor: "white",
+      },
+    },
+
+    animation: {
+      duration: 1, // general animation time
+    },
+    hover: {
+      animationDuration: 1, // duration of animations when hovering an item
+    }
+
+  }
+});
+
 /**
  * Sets up graph for the first time by pushing initial values
  */
@@ -220,6 +276,11 @@ function setupGraphs() {
   arrys[2].push(getTotals().immune);
   arrys[3].push(getTotals().healthy);
 
+  allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, getTotals().dead];
+  barChart.data.datasets[0].data = allStatistics;
+
+
+  barChart.update();
   infChart.update();
 }
 
@@ -228,6 +289,7 @@ function graphStuff() {
   time++;
 
   if (show_graph) {
+    //For line graph
     if (time < 100) {
       arrys[0].splice(time, 0, getTotals().infected);
       arrys[1].splice(time, 0, getTotals().dead);
@@ -245,7 +307,12 @@ function graphStuff() {
       arrys[3].push(getTotals().healthy);
       graphResize();
     }
+    //Bar graph
+    allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, totalDead];
+    barChart.data.datasets[0].data = allStatistics;
+
     infChart.update();
+    barChart.update();
   }
 }
 
@@ -532,6 +599,7 @@ function doTimestep() {
           // if they are dead
           if (persons[x][y].deadtime > death_wait){
             temp_persons[x][y] = null;
+            totalDead ++;
           } else {
             temp_persons[x][y].deadtime ++;
           }
