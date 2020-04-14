@@ -40,10 +40,10 @@ var movechance = 0.2;
 var death_wait = 100;
 
 // colors
-var dead_color = "rgb(49, 62, 80)";
-var immune_color = "rgb(234, 173, 233)";
-var infected_color = "rgb(112, 175, 124)";
-var healthy_color = "rgb(200, 200, 200)";
+var dead_color = "rgb(165, 36, 61)";
+var immune_color = "rgb(185, 207, 212)";
+var infected_color = "rgb(180, 130, 145)";
+var healthy_color = "rgb(97, 239, 203)";
 
 //UI
 var show_graph = true;
