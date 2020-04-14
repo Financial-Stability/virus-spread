@@ -8,7 +8,7 @@
  * TODO: Travel
  * TODO: Boundaries, maybe user drawn or somehow randomly generated in interesting way
  * TODO: find way to fix the fact that virus can only spread to adjacent stops exponential growth, maybe with a spread radius variable
- * 
+ *
  * TODO: Dead people fade away
  *
  * settings UI
@@ -111,7 +111,12 @@ function applySettings() {
 
   populate();
 
-  allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, totalDead];
+  allStatistics = [
+    getTotals().infected,
+    getTotals().immune,
+    getTotals().healthy,
+    totalDead,
+  ];
   barChart.data.datasets[0].data = allStatistics;
 
   barChart.update();
@@ -202,34 +207,41 @@ var infChart = new Chart(inf, {
 });
 
 var ctx = document.getElementById("barChart").getContext("2d");
-var allStatistics = [2,4,6,8];
+var allStatistics = [2, 4, 6, 8];
 
 var barChart = new Chart(ctx, {
-  type: 'bar',
+  type: "bar",
   data: {
     // labels:['uno', 'dos','tres','quatro'], //displays data funky
-    labels: ['Infected','Recovering','Healthy','Dead'],
+    labels: ["Infected", "Recovering", "Healthy", "Dead"],
     datasets: [
       {
-        label: 'Population Totals',
+        label: "Population Totals",
         data: allStatistics,
-        backgroundColor: [infected_color,immune_color,healthy_color,dead_color],
-      }
-    ]},
-  
+        backgroundColor: [
+          infected_color,
+          immune_color,
+          healthy_color,
+          dead_color,
+        ],
+      },
+    ],
+  },
+
   options: {
     responsiveAnimationDuration: 0, // animation duration after a resize
     responsive: true,
     maintainAspectRatio: false,
-    responsive: true,
 
     scales: {
-      yAxes: [{
-        ticks: {
+      yAxes: [
+        {
+          ticks: {
             beginAtZero: true,
-            max: population_size
-        }
-      }]
+            max: population_size,
+          },
+        },
+      ],
     },
 
     legend: {
@@ -245,9 +257,8 @@ var barChart = new Chart(ctx, {
     },
     hover: {
       animationDuration: 1, // duration of animations when hovering an item
-    }
-
-  }
+    },
+  },
 });
 
 /**
@@ -276,9 +287,13 @@ function setupGraphs() {
   arrys[2].push(getTotals().immune);
   arrys[3].push(getTotals().healthy);
 
-  allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, getTotals().dead];
+  allStatistics = [
+    getTotals().infected,
+    getTotals().immune,
+    getTotals().healthy,
+    getTotals().dead,
+  ];
   barChart.data.datasets[0].data = allStatistics;
-
 
   barChart.update();
   infChart.update();
@@ -308,7 +323,12 @@ function graphStuff() {
       graphResize();
     }
     //Bar graph
-    allStatistics = [getTotals().infected, getTotals().immune, getTotals().healthy, totalDead];
+    allStatistics = [
+      getTotals().infected,
+      getTotals().immune,
+      getTotals().healthy,
+      totalDead,
+    ];
     barChart.data.datasets[0].data = allStatistics;
 
     infChart.update();
@@ -346,7 +366,7 @@ function graphResize() {
  * Setup function that runs once to setup p5 stuff
  */
 function setup() {
-  let canvas = createCanvas(displayWidth / 2, displayWidth / 2);
+  let canvas = createCanvas(displayWidth / 3, displayWidth / 3);
   canvas.parent("canvascontainer");
   noStroke();
   background(220);
@@ -376,7 +396,6 @@ class Person {
     // random pos/neg velocities whos abs val adds to 1
     this.xVel = Math.random() * (Math.round(Math.random()) * 2 - 1);
     this.yVel = (1 - Math.abs(this.xVel)) * (Math.round(Math.random()) * 2 - 1);
-    
   }
 }
 
@@ -416,63 +435,64 @@ function populate() {
     temp_persons.push(temp_row);
   }
 
-  if(walls){// add walls
-  let wall_length = Math.floor(side_size * 0.1);
-  // let walls_per_side = Math.floor(side_size * 0.1);
-  let walls_per_side = 10;
-  let dist_btw_walls = Math.floor(side_size / walls_per_side-1);
+  if (walls) {
+    // add walls
+    let wall_length = Math.floor(side_size * 0.1);
+    // let walls_per_side = Math.floor(side_size * 0.1);
+    let walls_per_side = 10;
+    let dist_btw_walls = Math.floor(side_size / walls_per_side - 1);
 
-  for (var i = 0; i < 4; i++) {
-    //for each side
+    for (var i = 0; i < 4; i++) {
+      //for each side
 
-    if(i==0){
-      //top
-      startX = dist_btw_walls;
-      startY = 0;
-    }else if(i==1){
-      //right
-      startX = side_size-1;
-      startY = dist_btw_walls;
-    }else if (i==2){
-      //bottom
-      startX = dist_btw_walls;
-      startY = side_size;
-    }else if (i==3){
-      //left
-      startX = 0;
-      startY = Math.floor(1.5*dist_btw_walls);
-    }
+      if (i == 0) {
+        //top
+        startX = dist_btw_walls;
+        startY = 0;
+      } else if (i == 1) {
+        //right
+        startX = side_size - 1;
+        startY = dist_btw_walls;
+      } else if (i == 2) {
+        //bottom
+        startX = dist_btw_walls;
+        startY = side_size;
+      } else if (i == 3) {
+        //left
+        startX = 0;
+        startY = Math.floor(1.5 * dist_btw_walls);
+      }
 
-    for(var j=0; j<walls_per_side; j++){
-      //for each wall
-      if(i==0){
-        //if doing walls on top
-        for(var k=0; k<wall_length; k++){
-          temp_persons[startX][startY+k] = 'wall';
+      for (var j = 0; j < walls_per_side; j++) {
+        //for each wall
+        if (i == 0) {
+          //if doing walls on top
+          for (var k = 0; k < wall_length; k++) {
+            temp_persons[startX][startY + k] = "wall";
+          }
+          startX = startX + dist_btw_walls;
+        } else if (i == 1) {
+          //if doing walls on right
+          for (var k = 0; k < wall_length; k++) {
+            temp_persons[startX - k][startY] = "wall";
+          }
+          startY = startY + dist_btw_walls;
+        } else if (i == 2) {
+          //walls on bottom
+          for (var k = 0; k < wall_length; k++) {
+            temp_persons[startX][startY - k] = "wall";
+          }
+          startX = startX + dist_btw_walls;
+        } else if (i == 3) {
+          //walls on left
+          for (var k = 0; k < wall_length; k++) {
+            temp_persons[startX + k][startY] = "wall";
+          }
+          startY = startY + dist_btw_walls;
         }
-        startX = startX + dist_btw_walls;
-      }else if(i==1){
-        //if doing walls on right
-        for(var k=0; k<wall_length; k++){
-          temp_persons[startX-k][startY] = 'wall';
-        }
-        startY = startY + dist_btw_walls;
-      }else if (i==2){
-        //walls on bottom
-        for(var k=0; k<wall_length; k++){
-          temp_persons[startX][startY-k] = 'wall';
-        }
-        startX = startX + dist_btw_walls;
-      }else if (i==3){
-        //walls on left
-        for(var k=0; k<wall_length; k++){
-          temp_persons[startX+k][startY] = 'wall';
-        }
-        startY = startY + dist_btw_walls;
       }
     }
   }
-}
 
   var placed = 0;
   while (placed < population_size) {
@@ -572,7 +592,8 @@ function doTimestep() {
               (Math.round(Math.random()) * 2 - 1);
           }
 
-          if(Math.random() < movechance){// move according to velocity
+          if (Math.random() < movechance) {
+            // move according to velocity
             var axis = pickPercent(
               [
                 Math.abs(persons[x][y].xVel * 100),
@@ -594,14 +615,14 @@ function doTimestep() {
                 temp_persons = movePerson(x, y, temp_persons, "right");
               }
             }
-        }
-        }else {
+          }
+        } else {
           // if they are dead
-          if (persons[x][y].deadtime > death_wait){
+          if (persons[x][y].deadtime > death_wait) {
             temp_persons[x][y] = null;
-            totalDead ++;
+            totalDead++;
           } else {
-            temp_persons[x][y].deadtime ++;
+            temp_persons[x][y].deadtime++;
           }
         }
       } else {
@@ -743,7 +764,7 @@ function drawPeople() {
   for (var x = 0; x < persons.length; x++) {
     for (var y = 0; y < persons[0].length; y++) {
       if (persons[x][y] != null) {
-        if (persons[x][y] == 'wall'){
+        if (persons[x][y] == "wall") {
           fill(color("rgb(0,0,0)"));
         } else if (persons[x][y].dead) {
           fill(color(dead_color)); // dead color

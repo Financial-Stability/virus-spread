@@ -11,43 +11,71 @@
   display: inline-block;
 }
 
-.tab_button{
-  display : inline-block;
-  width : fit-content;
+.tab_button {
+  display: inline-block;
+  width: fit-content;
   border: none;
   background-color: grey;
-  /* padding: 14px 28px; */
-  /* font-size: 16px; */
   cursor: pointer;
   text-align: center;
   outline: none;
 }
 
 .tab-selected {
-    background-color: lightblue;
+  background-color: lightblue;
 }
 
 .tab_button:hover {
   background-color: blue;
-  color:white;
+  color: white;
 }
 
-h1{
-  color:white;
+h1 {
+  color: white;
 }
 
-h2{
-  color:white;
+h2 {
+  color: white;
 }
 
-h3{
-  color:white;
+h3 {
+  color: white;
 }
 
-p{
-  color:white;
+p {
+  color: white;
 }
 
 body {
-    background-color: rgb(0,5,1);
+  background-color: rgb(0, 5, 1);
+  display: grid;
+}
+
+#simulation {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: start;
+}
+
+#settings {
+  grid-column: 1;
+  justify-self: start;
+}
+
+#graphs {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: start;
+}
+
+#top {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+button {
+  display: inline-block;
+  width: fit-content;
+  border: none;
+  outline: none;
 }
