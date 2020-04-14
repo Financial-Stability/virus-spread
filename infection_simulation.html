@@ -7,8 +7,8 @@
     <h1>Virus Spread</h1>
     <nav>
       <ul>
-        <li><a href="./infection_simulation.html">infection sim</a></li>
-        <li><a href="./population_simulation.html">population sim</a></li>
+        <li><a style="color:white" href="./infection_simulation.html">infection sim</a></li>
+        <li><a style="color:white"  href="./population_simulation.html">population sim</a></li>
       </ul>
     </nav>
 
@@ -39,7 +39,7 @@
         </button>
       </ul>
       <div class="settings_group" id="population_settings" class="settings">
-        <label for="pop_size_input">population size (#)</label>
+        <label style="color:white" for="pop_size_input">population size (#)</label>
         <input
           type="number"
           id="pop_size_input"
@@ -47,7 +47,7 @@
           min="1"
           max="100000"
         /><br />
-        <label for="sim_spd_input">simulation speed (#ms)</label>
+        <label style="color:white" for="sim_spd_input">simulation speed (#ms)</label>
         <input
           type="number"
           id="sim_spd_input"
@@ -56,7 +56,7 @@
           max="1000"
         /><br />
 
-        <label for="in_inf_input">initial infection chance (%)</label>
+        <label style="color:white" for="in_inf_input">initial infection chance (%)</label>
         <input
           type="number"
           id="in_inf_input"
@@ -72,7 +72,7 @@
         class="settings"
         style="display:none"
       >
-        <label for="inf_input">infection chance (%)</label>
+        <label style="color:white" for="inf_input">infection chance (%)</label>
         <input
           type="number"
           id="inf_input"
@@ -80,7 +80,7 @@
           min="0"
           max="100"
         /><br />
-        <label for="death_input">death chance for infected (%)</label>
+        <label style="color:white" for="death_input">death chance for infected (%)</label>
         <input
           type="number"
           id="death_input"
@@ -88,10 +88,10 @@
           min="0"
           max="100"
         /><br />
-        <input type="checkbox" id="dev_imm" name="develop immunity" />
-        <label for="dev_imm">people develop immunity</label><br />
+        <input style="color:white" type="checkbox" id="dev_imm" name="develop immunity" />
+        <label style="color:white" for="dev_imm">people do recovery period</label><br />
         <ul id="immunity_settings">
-          <label for="imm_input">number of survivials for immunity (#)</label>
+          <label style="color:white" for="imm_input">number of survivials for recovery period (#)</label>
           <input
             type="number"
             id="imm_input"
@@ -100,10 +100,10 @@
             max="1000"
           />
         </ul>
-        <input type="checkbox" id="imm_infect" name="immune infect" />
-        <label for="imm_infect">immune people infect others</label><br />
-        <input type="checkbox" id="imm_recover" name="immune recover" />
-        <label for="imm_recover">immune people recover</label>
+        <input style="color:white" type="checkbox" id="imm_infect" name="immune infect" />
+        <label style="color:white" for="imm_infect">Recoverting people infect others</label><br />
+        <input style="color:white" type="checkbox" id="imm_recover" name="immune recover" />
+        <label style="color:white" for="imm_recover">Recovering people recover</label>
         <ul id="recovery_time_settings">
           <label for="imm_recover_time">recovery time (#)</label>
           <input

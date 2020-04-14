@@ -22,8 +22,8 @@
 // simulation variables
 var population_size = 2500; // have default value be square number to fill nicely
 var start_infected_chance = 0.05;
-var infection_chance = 0.07;
-var death_chance = 0.001;
+var infection_chance = 0.05;
+var death_chance = 0.003;
 var immune_develop_num = 50;
 var persons = [];
 var side_size = Math.ceil(Math.sqrt(population_size));
@@ -34,7 +34,7 @@ var develop_immunity = true;
 var time_to_recover = 40;
 var sim_spd = 5;
 var percent_empty = 0.5;
-var max_distance = 100;
+var max_distance = 70;
 var walls = false;
 var movechance = 0.2;
 var death_wait = 100;
@@ -43,7 +43,7 @@ var death_wait = 100;
 var dead_color = "rgb(165, 36, 61)";
 var immune_color = "rgb(185, 207, 212)";
 var infected_color = "rgb(180, 130, 145)";
-var healthy_color = "rgb(97, 239, 203)";
+var healthy_color = "rgb(122, 183, 115)";
 
 //UI
 var show_graph = true;
@@ -140,7 +140,7 @@ var infChart = new Chart(inf, {
       },
       {
         // immune population
-        label: "Immune Population",
+        label: "Recovering Population",
         data: arrys[2],
         backgroundColor: immune_color,
       },
@@ -208,7 +208,7 @@ var barChart = new Chart(ctx, {
   type: 'bar',
   data: {
     // labels:['uno', 'dos','tres','quatro'], //displays data funky
-    labels: ['infected','immune','healthy','dead'],
+    labels: ['Infected','Recovering','Healthy','Dead'],
     datasets: [
       {
         label: 'Population Totals',
