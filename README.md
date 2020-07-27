@@ -1,4 +1,5 @@
 # virus-spread
+A simulation of how disease spreads through a population. With adjustable infection, death and immunity rates, see how a pandemic can eat through a population.
 
 Links:
 
