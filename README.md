@@ -1,7 +1,7 @@
 # virus-spread
 A simulation of how disease spreads through a population. With adjustable infection, death and immunity rates, see how a pandemic can eat through a population.
 
-Try it out [here](https://avery2.github.io/virus-spread/)!
+Try it out [here](https://financial-stability.github.io/virus-spread/)!
 
 Links:
 
