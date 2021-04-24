@@ -3,18 +3,23 @@ A simulation of how disease spreads through a population. With adjustable infect
 
 Try it out [here](https://financial-stability.github.io/virus-spread/)!
 
-Links:
+# Links:
 
-Inspiration:
+## Inspiration:
+
 https://youtu.be/Kas0tIxDvrg?t=410
+
 https://ncase.me/trust/
 
-Even distribute points on sphere
+## Even distribute points on sphere
+
 http://extremelearning.com.au/evenly-distributing-points-on-a-sphere/
 
-Chart.js docs
+## Chart.js docs
+
 https://www.chartjs.org/docs/latest/developers/updates.html
 
-p5.js docs
+## p5.js docs
+
 https://p5js.org/reference/#group-Foundation
 
