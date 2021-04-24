@@ -3,8 +3,6 @@ A simulation of how disease spreads through a population. With adjustable infect
 
 Try it out [here](https://financial-stability.github.io/virus-spread/)!
 
-# Links:
-
 ## Inspiration:
 
 https://youtu.be/Kas0tIxDvrg?t=410
